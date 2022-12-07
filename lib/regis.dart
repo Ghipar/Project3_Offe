@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/regis.dart';
+import 'package:http/http.dart' as http;
 
 class regis extends StatefulWidget {
   const regis({Key? key}) : super(key: key);
@@ -9,8 +12,23 @@ class regis extends StatefulWidget {
   _regisState createState() => _regisState();
 }
 
+TextEditingController user = TextEditingController();
+TextEditingController email = TextEditingController();
+TextEditingController pass = TextEditingController();
+
 class _regisState extends State<regis> {
   var obscuretext1 = true;
+  Future<List> _adddata() async {
+    final response = await http
+        .post(Uri.parse("http://192.168.1.7/cobak/register.php"), body: {
+      "Username": user.text,
+      "Email": email.text,
+      "Password": pass.text,
+    });
+    showSnackBarFav2(context);
+    return jsonDecode(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +59,7 @@ class _regisState extends State<regis> {
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: TextField(
                     autofocus: false,
-                    //controller: usernameController,
+                    controller: user,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -64,7 +82,7 @@ class _regisState extends State<regis> {
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: TextField(
                     autofocus: false,
-                    //controller: usernameController,
+                    controller: email,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -86,7 +104,7 @@ class _regisState extends State<regis> {
               Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: TextField(
-                  //controller: passwordController,
+                  controller: pass,
                   obscureText: obscuretext1,
                   decoration: InputDecoration(
                     filled: true,
@@ -185,12 +203,7 @@ class _regisState extends State<regis> {
                                   side: BorderSide(
                                       color:
                                           Color.fromARGB(255, 76, 101, 75))))),
-                      onPressed: () =>
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Belom anjing!!'),
-                            ),
-                          ))),
+                      onPressed: () => _adddata())),
               SizedBox(
                 height: 10,
               ),
@@ -199,4 +212,21 @@ class _regisState extends State<regis> {
         )),
         backgroundColor: Color.fromARGB(100, 104, 166, 100));
   }
+}
+
+void showSnackBarFav2(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Berhasil Registrasi',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

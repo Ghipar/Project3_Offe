@@ -26,110 +26,50 @@ class ItemList extends StatelessWidget {
           // Carousel(),
           Container(
             height: 250,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Center(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 15.0, left: 20.0, right: 10.0),
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: InkWell(
-                        onTap: () {
-                          print('hola');
-                        },
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: Alignment.bottomLeft,
-                              children: [
-                                Image.asset(
-                                  'assets/images/original.jpg',
-                                  height: 200,
-                                  fit: BoxFit.fitWidth,
-                                )
-                              ],
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: list == null ? 0 : list.length,
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 30.0, left: 10.0, right: 10.0),
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: InkWell(
+                              onTap: () {
+                                print('hola');
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.bottomLeft,
+                                    children: [
+                                      Ink.image(
+                                        image: NetworkImage(
+                                            '${list[i]['gambar_banner']}'),
+                                        height: 200,
+                                        width: 380,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: InkWell(
-                        onTap: () {
-                          print('hola');
-                        },
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: Alignment.bottomLeft,
-                              children: [
-                                Image.asset(
-                                  'assets/images/hisoka.jpg',
-                                  height: 200,
-                                  fit: BoxFit.fitWidth,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 15.0, left: 10.0, right: 20.0),
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: InkWell(
-                        onTap: () {
-                          print('hola');
-                        },
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: Alignment.bottomLeft,
-                              children: [
-                                Image.asset(
-                                  'assets/images/umami.jpg',
-                                  height: 200,
-                                  fit: BoxFit.fitWidth,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                    ],
+                  );
+                }),
           ),
           SizedBox(
             height: 30,
@@ -345,11 +285,13 @@ class ItemList extends StatelessWidget {
                                   Stack(
                                     alignment: Alignment.bottomLeft,
                                     children: [
-                                      Image.asset(
-                                        'assets/images/mdar.jpg',
+                                      Ink.image(
+                                        image: NetworkImage(
+                                            '${list[i]['gambar_toko']}'),
                                         height: 100,
+                                        width: 180,
                                         fit: BoxFit.fitWidth,
-                                      )
+                                      ),
                                     ],
                                   ),
                                   Padding(
@@ -367,7 +309,7 @@ class ItemList extends StatelessWidget {
                                           style:
                                               TextStyle(color: Colors.black54),
                                         ),
-                                        Text('${list[i]['username']}'),
+                                        Text('${list[i]['Nama_toko']}'),
                                         Row(
                                           children: [
                                             Container(
@@ -409,178 +351,7 @@ class ItemList extends StatelessWidget {
                       ),
                     ],
                   );
-                }
-
-                // Column(
-                //   children: [
-                //     Center(
-                //       child: Padding(
-                //         padding: EdgeInsets.only(
-                //             top: 15.0, left: 10.0, right: 5.0),
-                //         child: Card(
-                //           clipBehavior: Clip.antiAlias,
-                //           elevation: 10,
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(20)),
-                //           child: InkWell(
-                //             onTap: () {
-                //               print('hola');
-                //             },
-                //             child: Column(
-                //               mainAxisSize: MainAxisSize.min,
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Stack(
-                //                   alignment: Alignment.bottomLeft,
-                //                   children: [
-                //                     Image.asset(
-                //                       'assets/images/aogi.jpeg',
-                //                       height: 100,
-                //                       fit: BoxFit.fitWidth,
-                //                     )
-                //                   ],
-                //                 ),
-                //                 Padding(
-                //                   padding: EdgeInsets.only(
-                //                       left: 16.0,
-                //                       top: 16.0,
-                //                       right: 20.0,
-                //                       bottom: 20.0),
-                //                   child: Column(
-                //                     crossAxisAlignment:
-                //                         CrossAxisAlignment.start,
-                //                     children: <Widget>[
-                //                       Text(
-                //                         '0,6 Km',
-                //                         style:
-                //                             TextStyle(color: Colors.black54),
-                //                       ),
-                //                       Text('Caffe Wibu'),
-                //                       Row(
-                //                         children: [
-                //                           Container(
-                //                               padding: EdgeInsets.only(
-                //                                   bottom: 3.0, left: 42.0),
-                //                               child: IconButton(
-                //                                   onPressed: () {
-                //                                     showSnackBarFav(context);
-                //                                   },
-                //                                   icon: Icon(
-                //                                     Icons.favorite,
-                //                                     color: Colors.pink,
-                //                                   ))),
-                //                           Container(
-                //                             padding:
-                //                                 EdgeInsets.only(bottom: 3.0),
-                //                             child: Icon(
-                //                               Icons.star,
-                //                               color: Colors.orange,
-                //                             ),
-                //                           ),
-                //                           Container(
-                //                             padding:
-                //                                 EdgeInsets.only(left: 5.0),
-                //                             child: Text('4,5'),
-                //                           )
-                //                         ],
-                //                       )
-                //                     ],
-                //                   ),
-                //                 )
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Column(
-                //   children: [
-                //     Center(
-                //       child: Padding(
-                //         padding: EdgeInsets.only(
-                //             top: 15.0, left: 10.0, right: 5.0),
-                //         child: Card(
-                //           clipBehavior: Clip.antiAlias,
-                //           elevation: 10,
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(20)),
-                //           child: InkWell(
-                //             onTap: () {
-                //               print('hola');
-                //             },
-                //             child: Column(
-                //               mainAxisSize: MainAxisSize.min,
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Stack(
-                //                   alignment: Alignment.bottomLeft,
-                //                   children: [
-                //                     Image.asset(
-                //                       'assets/images/aot.jpg',
-                //                       height: 100,
-                //                       fit: BoxFit.fitWidth,
-                //                     )
-                //                   ],
-                //                 ),
-                //                 Padding(
-                //                   padding: EdgeInsets.only(
-                //                       left: 16.0,
-                //                       top: 16.0,
-                //                       right: 20.0,
-                //                       bottom: 20.0),
-                //                   child: Column(
-                //                     crossAxisAlignment:
-                //                         CrossAxisAlignment.start,
-                //                     children: <Widget>[
-                //                       Text(
-                //                         '0,6 Km',
-                //                         style:
-                //                             TextStyle(color: Colors.black54),
-                //                       ),
-                //                       Text('Caffe Wibu'),
-                //                       Row(
-                //                         children: [
-                //                           Container(
-                //                               padding: EdgeInsets.only(
-                //                                   bottom: 3.0, left: 42.0),
-                //                               child: IconButton(
-                //                                   onPressed: () {
-                //                                     showSnackBarFav(context);
-                //                                   },
-                //                                   icon: Icon(
-                //                                     Icons.favorite,
-                //                                     color: Colors.pink,
-                //                                   ))),
-                //                           Container(
-                //                             padding:
-                //                                 EdgeInsets.only(bottom: 3.0),
-                //                             child: Icon(
-                //                               Icons.star,
-                //                               color: Colors.orange,
-                //                             ),
-                //                           ),
-                //                           Container(
-                //                             padding:
-                //                                 EdgeInsets.only(left: 5.0),
-                //                             child: Text('4,5'),
-                //                           )
-                //                         ],
-                //                       )
-                //                     ],
-                //                   ),
-                //                 )
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-
-                ),
+                }),
           ),
           Row(
             children: [
@@ -595,259 +366,99 @@ class ItemList extends StatelessWidget {
           ),
           Container(
             height: 280,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/mdar.jpg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: list == null ? 0 : list.length,
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 15.0, left: 10.0, right: 5.0),
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: InkWell(
+                              onTap: () {
+                                print('hola');
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.bottomLeft,
+                                    children: [
+                                      Ink.image(
+                                        image: NetworkImage(
+                                            '${list[i]['gambar_toko']}'),
+                                        height: 100,
+                                        width: 180,
+                                        fit: BoxFit.fitWidth,
                                       ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                bottom: 3.0,
-                                                left: 42.0,
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16.0,
+                                        top: 16.0,
+                                        right: 20.0,
+                                        bottom: 20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '0,6 Km',
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                        ),
+                                        Text('${list[i]['Nama_toko']}'),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.only(
+                                                  bottom: 3.0,
+                                                  left: 42.0,
+                                                ),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      showSnackBarFav(context);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.favorite,
+                                                      color: Colors.pink,
+                                                    ))),
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 3.0),
+                                              child: Icon(
+                                                Icons.star,
+                                                color: Colors.orange,
                                               ),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
                                             ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(left: 5.0),
+                                              child: Text('4,5'),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/aogi.jpeg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 3.0, left: 42.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/aot.jpg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 3.0, left: 42.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  );
+                }),
           ),
           Row(
             children: [
@@ -862,259 +473,99 @@ class ItemList extends StatelessWidget {
           ),
           Container(
             height: 280,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/mdar.jpg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: list == null ? 0 : list.length,
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 15.0, left: 10.0, right: 5.0),
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: InkWell(
+                              onTap: () {
+                                print('hola');
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.bottomLeft,
+                                    children: [
+                                      Ink.image(
+                                        image: NetworkImage(
+                                            '${list[i]['gambar_toko']}'),
+                                        height: 100,
+                                        width: 180,
+                                        fit: BoxFit.fitWidth,
                                       ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                bottom: 3.0,
-                                                left: 42.0,
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16.0,
+                                        top: 16.0,
+                                        right: 20.0,
+                                        bottom: 20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '0,6 Km',
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                        ),
+                                        Text('${list[i]['Nama_toko']}'),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.only(
+                                                  bottom: 3.0,
+                                                  left: 42.0,
+                                                ),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      showSnackBarFav(context);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.favorite,
+                                                      color: Colors.pink,
+                                                    ))),
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 3.0),
+                                              child: Icon(
+                                                Icons.star,
+                                                color: Colors.orange,
                                               ),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
                                             ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(left: 5.0),
+                                              child: Text('4,5'),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/aogi.jpeg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 3.0, left: 42.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.0, left: 10.0, right: 5.0),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            onTap: () {
-                              print('hola');
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/aot.jpg',
-                                      height: 100,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top: 16.0,
-                                      right: 20.0,
-                                      bottom: 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '0,6 Km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Text('Caffe Wibu'),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 3.0, left: 42.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showSnackBarFav(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.pink,
-                                                  ))),
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 3.0),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 5.0),
-                                            child: Text('4,5'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  );
+                }),
           ),
         ],
       ),

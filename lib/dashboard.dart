@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:project_3/home.dart';
+import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 
 class dashboard extends StatefulWidget {
@@ -83,10 +84,7 @@ class _dashboardState extends State<dashboard> {
       'Voucher',
       style: optionStyle,
     ),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {

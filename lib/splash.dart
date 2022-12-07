@@ -14,13 +14,8 @@ class _splashState extends State<splash> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => screen(),
-              ),
-            ));
+    Timer(Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, '/screen'));
   }
 
   @override

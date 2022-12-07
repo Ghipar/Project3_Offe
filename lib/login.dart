@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_3/dashboard.dart';
 import 'package:project_3/regis.dart';
+import 'package:http/http.dart' as http;
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -9,8 +12,69 @@ class login extends StatefulWidget {
   _loginState createState() => _loginState();
 }
 
+void showSnackBarFav(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Gagal login username dan password salah!!!',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+String username = '';
+void showSnackBarFav1(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Text(
+        'Selamat datang $username',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
 class _loginState extends State<login> {
+  TextEditingController user = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
   var obscuretext1 = true;
+
+  Future<List> _login() async {
+    final response =
+        await http.post(Uri.parse("http://192.168.1.7/cobak/login.php"), body: {
+      "Username": user.text,
+      "Password": pass.text,
+    });
+    // print(response.body);
+    var datauser = jsonDecode(response.body);
+    if (datauser.length == 0) {
+      setState(() {
+        showSnackBarFav(context);
+      });
+    } else {
+      Navigator.pushReplacementNamed(context, '/dashboard');
+      setState(() {
+        username = datauser[0]['Username'];
+      });
+
+      showSnackBarFav1(context);
+    }
+    return datauser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +105,7 @@ class _loginState extends State<login> {
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: TextField(
                     autofocus: false,
-                    //controller: usernameController,
+                    controller: user,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -63,7 +127,7 @@ class _loginState extends State<login> {
               Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: TextField(
-                  //controller: passwordController,
+                  controller: pass,
                   obscureText: obscuretext1,
                   decoration: InputDecoration(
                     filled: true,
@@ -164,11 +228,7 @@ class _loginState extends State<login> {
                                   side: BorderSide(
                                       color:
                                           Color.fromARGB(255, 76, 101, 75))))),
-                      onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => dashboard(),
-                            ),
-                          ))),
+                      onPressed: () => _login())),
               SizedBox(
                 height: 10,
               ),

@@ -51,8 +51,8 @@ class ItemList extends StatelessWidget {
                             height: 70.0,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                'assets/images/aogi.jpeg',
+                              child: Image.network(
+                                '${list[i]['gambar_toko']}',
                                 width: 70,
                                 height: 70,
                                 fit: BoxFit.cover,
@@ -65,7 +65,7 @@ class ItemList extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                "${list[i]['username']}",
+                                "${list[i]['Nama_toko']}",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
@@ -112,173 +112,6 @@ class ItemList extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
-            // GestureDetector(
-            //   onTap: () {
-            //     showSnackBarFav(context);
-            //   },
-            //   child: Card(
-            //     elevation: 8,
-            //     child: Container(
-            //       width: double.infinity,
-            //       decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       padding:
-            //           const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Row(
-            //             children: [
-            //               SizedBox(
-            //                 width: 70.0,
-            //                 height: 70.0,
-            //                 child: ClipRRect(
-            //                   borderRadius: BorderRadius.circular(10),
-            //                   child: Image.asset(
-            //                     'assets/images/aogi.jpeg',
-            //                     width: 70,
-            //                     height: 70,
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 ),
-            //               ),
-            //               SizedBox(
-            //                 width: 24,
-            //               ),
-            //               Column(
-            //                 children: const [
-            //                   Text(
-            //                     'Caffe Wibu',
-            //                     style: TextStyle(fontWeight: FontWeight.bold),
-            //                   ),
-            //                   Text(
-            //                     '0,6 km',
-            //                     textAlign: TextAlign.left,
-            //                   ),
-            //                 ],
-            //               )
-            //             ],
-            //           ),
-            //           Row(
-            //             children: [
-            //               Container(
-            //                   padding:
-            //                       EdgeInsets.only(right: 10.0, bottom: 3.0),
-            //                   child: IconButton(
-            //                       onPressed: () {
-            //                         showSnackBarFav(context);
-            //                       },
-            //                       icon: Icon(
-            //                         Icons.favorite,
-            //                         color: Colors.pink,
-            //                       ))),
-            //               Container(
-            //                 padding: EdgeInsets.only(right: 10.0, bottom: 5.0),
-            //                 child: Icon(
-            //                   Icons.star,
-            //                   color: Colors.amber,
-            //                 ),
-            //               ),
-            //               Container(
-            //                 padding: EdgeInsets.only(
-            //                   right: 10.0,
-            //                 ),
-            //                 child: Text("4.5"),
-            //               ),
-            //             ],
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 5,
-            // ),
-            // GestureDetector(
-            //   onTap: () {
-            //     showSnackBarFav(context);
-            //   },
-            //   child: Card(
-            //     elevation: 8,
-            //     child: Container(
-            //       width: double.infinity,
-            //       decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       padding:
-            //           const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Row(
-            //             children: [
-            //               SizedBox(
-            //                 width: 70.0,
-            //                 height: 70.0,
-            //                 child: ClipRRect(
-            //                   borderRadius: BorderRadius.circular(10),
-            //                   child: Image.asset(
-            //                     'assets/images/aogi.jpeg',
-            //                     width: 70,
-            //                     height: 70,
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 ),
-            //               ),
-            //               SizedBox(
-            //                 width: 24,
-            //               ),
-            //               Column(
-            //                 children: const [
-            //                   Text(
-            //                     'Caffe Wibu',
-            //                     style: TextStyle(fontWeight: FontWeight.bold),
-            //                   ),
-            //                   Text(
-            //                     '0,6 km',
-            //                     textAlign: TextAlign.left,
-            //                   ),
-            //                 ],
-            //               )
-            //             ],
-            //           ),
-            //           Row(
-            //             children: [
-            //               Container(
-            //                   padding:
-            //                       EdgeInsets.only(right: 10.0, bottom: 3.0),
-            //                   child: IconButton(
-            //                       onPressed: () {
-            //                         showSnackBarFav(context);
-            //                       },
-            //                       icon: Icon(
-            //                         Icons.favorite,
-            //                         color: Colors.pink,
-            //                       ))),
-            //               Container(
-            //                 padding: EdgeInsets.only(right: 10.0, bottom: 5.0),
-            //                 child: Icon(
-            //                   Icons.star,
-            //                   color: Colors.amber,
-            //                 ),
-            //               ),
-            //               Container(
-            //                 padding: EdgeInsets.only(
-            //                   right: 10.0,
-            //                 ),
-            //                 child: Text("4.5"),
-            //               ),
-            //             ],
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         );
       },
