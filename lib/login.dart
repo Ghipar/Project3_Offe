@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:project_3/dashboard.dart';
 import 'package:project_3/regis.dart';
 import 'package:http/http.dart' as http;
+import 'package:email_validator/email_validator.dart';
+import 'package:validators/validators.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -21,7 +24,7 @@ void showSnackBarFav(BuildContext context) {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
-    backgroundColor: Colors.teal,
+    backgroundColor: Colors.red[900],
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
     elevation: 30,
@@ -51,14 +54,14 @@ class _loginState extends State<login> {
   TextEditingController user = new TextEditingController();
   TextEditingController pass = new TextEditingController();
   var obscuretext1 = true;
-
+  bool isValid = false;
   Future<List> _login() async {
     final response =
         await http.post(Uri.parse("http://192.168.1.7/cobak/login.php"), body: {
       "Username": user.text,
       "Password": pass.text,
     });
-    // print(response.body);
+ 
     var datauser = jsonDecode(response.body);
     if (datauser.length == 0) {
       setState(() {
@@ -104,19 +107,26 @@ class _loginState extends State<login> {
               Container(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: TextField(
+                    onChanged: (val) {
+                      setState(() {
+                        isValid = isEmail(val);
+                      });
+                    },
                     autofocus: false,
                     controller: user,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(Icons.person),
+                      prefixIconColor: Colors.grey,
+
                       //labelText: 'Username',
-                      hintText: 'Email',
+                      hintText: 'Username',
                       hintStyle: TextStyle(fontSize: 16),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Colors.greenAccent),
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
@@ -151,6 +161,9 @@ class _loginState extends State<login> {
                               color: Colors.blue,
                             ),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.greenAccent)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -172,14 +185,22 @@ class _loginState extends State<login> {
                     // Text('Lupas password?'),
                   ),
                   Container(
-                      // padding: EdgeInsets.only(left: 10.0),
-                      child: TextButton(
-                    onPressed: null,
+                    // padding: EdgeInsets.only(left: 10.0),
+
                     child: Text(
-                      'Lupa password ?',
-                      style: TextStyle(fontSize: 15, color: Colors.white70),
+                      '  Lupa password ?',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ))
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/fpass');
+                    },
+                    child: Text("Klik Disini"),
+                  )
                 ],
               ),
               SizedBox(
@@ -208,27 +229,29 @@ class _loginState extends State<login> {
                         )
                       ]),
                   child: ElevatedButton(
-                      child: Text("Login",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold)),
-                      style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.only(
-                                  top: 15.0,
-                                  bottom: 15.0,
-                                  left: 150.0,
-                                  right: 150.0)),
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color.fromARGB(255, 76, 101, 75)),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  side: BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 76, 101, 75))))),
-                      onPressed: () => _login())),
+                    child: Text("Login",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.only(
+                                top: 15.0,
+                                bottom: 15.0,
+                                left: 150.0,
+                                right: 150.0)),
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 76, 101, 75)),
+                        shape: MaterialStateProperty
+                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                    color: Color.fromARGB(255, 76, 101, 75))))),
+                    onPressed: () {
+                      _login();
+                    },
+                  )),
               SizedBox(
                 height: 10,
               ),
@@ -242,11 +265,7 @@ class _loginState extends State<login> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => regis(),
-                        ),
-                      );
+                      Navigator.pushReplacementNamed(context, '/regis');
                     },
                     child: Text("Register Disini"),
                   )

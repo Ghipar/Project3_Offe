@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_3/dashboard.dart';
+import 'package:project_3/forgotPass.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/regis.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => new login(),
         '/screen': (BuildContext context) => new screen(),
         '/regis': (BuildContext context) => new regis(),
+        '/fpass': (BuildContext context) => new forgotPass(),
       },
     );
   }

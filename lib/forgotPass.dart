@@ -1,46 +1,78 @@
 import 'dart:convert';
 
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:project_3/login.dart';
-import 'package:project_3/regis.dart';
-import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
+import 'package:get/get.dart';
 import 'package:validators/validators.dart';
+import 'package:http/http.dart' as http;
 
-class regis extends StatefulWidget {
-  const regis({Key? key}) : super(key: key);
+class forgotPass extends StatefulWidget {
+  const forgotPass({super.key});
 
   @override
-  _regisState createState() => _regisState();
+  State<forgotPass> createState() => _forgotPassState();
 }
 
-TextEditingController user = TextEditingController();
-TextEditingController email = TextEditingController();
-TextEditingController pass = TextEditingController();
+TextEditingController emai = new TextEditingController();
+TextEditingController pass = new TextEditingController();
+void showSnackBarFav(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Email tidak terdaftar!!!',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.red[900],
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
 
-class _regisState extends State<regis> {
-  var obscuretext1 = true;
+void showSnackBarFav2(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Berhasil reset password',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+class _forgotPassState extends State<forgotPass> {
   bool isValid = false;
-  Future<List> _adddata() async {
+  var obscuretext1 = true;
+  Future<List> _konfirmasi() async {
     final response = await http
-        .post(Uri.parse("http://192.168.1.7/cobak/register.php"), body: {
-      "Username": user.text,
-      "Email": email.text,
+        .post(Uri.parse("http://192.168.1.7/cobak/resetPass.php"), body: {
+      "Email": emai.text,
       "Password": pass.text,
     });
-    var data = jsonDecode(response.body);
 
-    if (data == "Error") {
-      showSnackBarFav2err(context);
+    var datauser = jsonDecode(response.body);
+    if (datauser == 'Error') {
+      setState(() {
+        showSnackBarFav(context);
+      });
     } else {
       showSnackBarFav2(context);
       Navigator.pushReplacementNamed(context, '/login');
-      user.clear();
-      email.clear();
+      emai.clear();
       pass.clear();
     }
-
-    return data;
+    return datauser;
   }
 
   @override
@@ -61,36 +93,13 @@ class _regisState extends State<regis> {
                   padding: EdgeInsets.only(left: 20.0),
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: Text('Sign up',
+                      child: Text('Lupa password',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 28,
                               color: Colors.white)))),
               SizedBox(
                 height: 20,
-              ),
-              Container(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: TextField(
-                    autofocus: false,
-                    controller: user,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.person),
-                      //labelText: 'Username',
-                      hintText: 'Username',
-                      hintStyle: TextStyle(fontSize: 16),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.greenAccent),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 10,
               ),
               Container(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
@@ -102,7 +111,7 @@ class _regisState extends State<regis> {
                     },
                     keyboardType: TextInputType.emailAddress,
                     autofocus: true,
-                    controller: email,
+                    controller: emai,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -161,10 +170,10 @@ class _regisState extends State<regis> {
                               color: Colors.blue,
                             ),
                     ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.greenAccent),
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.greenAccent)),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -174,22 +183,27 @@ class _regisState extends State<regis> {
                 height: 10,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Udah punya akun?',
-                    style: TextStyle(
-                        color: Colors.white70, fontWeight: FontWeight.bold),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Icon(
+                      Icons.login,
+                      color: Colors.white70,
+                    ),
+
+                    // Text('Lupas password?'),
                   ),
-                  TextButton(
+                  Container(
+                      // padding: EdgeInsets.only(left: 10.0),
+
+                      child: TextButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/login');
-                      user.clear();
-                      email.clear();
+                      emai.clear();
                       pass.clear();
                     },
                     child: Text("Login Disini"),
-                  )
+                  )),
                 ],
               ),
               SizedBox(
@@ -218,7 +232,7 @@ class _regisState extends State<regis> {
                         )
                       ]),
                   child: ElevatedButton(
-                    child: Text("Register",
+                    child: Text("Konfirmasi",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     style: ButtonStyle(
@@ -226,8 +240,8 @@ class _regisState extends State<regis> {
                             EdgeInsets.only(
                                 top: 15.0,
                                 bottom: 15.0,
-                                left: 135.0,
-                                right: 135.0)),
+                                left: 125.0,
+                                right: 125.0)),
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: isValid == false
@@ -242,7 +256,7 @@ class _regisState extends State<regis> {
                     onPressed: isValid == false
                         ? null
                         : () {
-                            _adddata();
+                            _konfirmasi();
                           },
                   )),
               SizedBox(
@@ -253,38 +267,4 @@ class _regisState extends State<regis> {
         )),
         backgroundColor: Color.fromARGB(100, 104, 166, 100));
   }
-}
-
-void showSnackBarFav2(BuildContext context) {
-  final snackBar = SnackBar(
-    content: Container(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: const Text(
-        'Berhasil Registrasi',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-    ),
-    backgroundColor: Colors.teal,
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
-    elevation: 30,
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
-
-void showSnackBarFav2err(BuildContext context) {
-  final snackBar = SnackBar(
-    content: Container(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: const Text(
-        'Gagal registrasi username atau email telah terpakai!!',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-    ),
-    backgroundColor: Colors.red[900],
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
-    elevation: 30,
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
