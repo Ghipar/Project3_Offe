@@ -6,18 +6,18 @@ import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/search.dart';
 
-class dashboard extends StatefulWidget {
-  const dashboard({Key? key}) : super(key: key);
+class dashboardvou extends StatefulWidget {
+  const dashboardvou({Key? key}) : super(key: key);
 
   @override
-  _dashboardState createState() => _dashboardState();
+  _dashboardvouState createState() => _dashboardvouState();
 }
 
 TextEditingController searchController = TextEditingController();
 
-class _dashboardState extends State<dashboard> {
+class _dashboardvouState extends State<dashboardvou> {
   var obscuretext1 = true;
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[

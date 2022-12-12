@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:project_3/api.dart';
 import 'package:project_3/test.dart';
 
 class Terdekat extends StatefulWidget {
@@ -27,91 +28,94 @@ class ItemList extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            GestureDetector(
-              onTap: () {
-                showSnackBarFav(context);
-              },
+            Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
               child: Card(
-                elevation: 8,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 70.0,
-                            height: 70.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                '${list[i]['gambar_toko']}',
-                                width: 70,
-                                height: 70,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  elevation: 5,
+                  child: InkWell(
+                      onTap: () {},
+                      child: Ink(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 254, 254, 254),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          SizedBox(
-                            width: 24,
-                          ),
-                          Column(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 6),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "${list[i]['Nama_toko']}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 70.0,
+                                    height: 70.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        '$imgProf${list[i]['gambar_toko']}',
+                                        width: 70,
+                                        height: 70,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${list[i]['Nama_toko']}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '0,6 km',
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              Text(
-                                '0,6 km',
-                                textAlign: TextAlign.left,
-                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.only(
+                                          right: 10.0, bottom: 3.0),
+                                      child: IconButton(
+                                          onPressed: () {
+                                            showSnackBarFav(context);
+                                          },
+                                          icon: Icon(
+                                            Icons.favorite,
+                                            color: Colors.pink,
+                                          ))),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        right: 10.0, bottom: 5.0),
+                                    child: Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                      right: 10.0,
+                                    ),
+                                    child: Text("4.5"),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              padding:
-                                  EdgeInsets.only(right: 10.0, bottom: 3.0),
-                              child: IconButton(
-                                  onPressed: () {
-                                    showSnackBarFav(context);
-                                  },
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: Colors.pink,
-                                  ))),
-                          Container(
-                            padding: EdgeInsets.only(right: 10.0, bottom: 5.0),
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(
-                              right: 10.0,
-                            ),
-                            child: Text("4.5"),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
+                        ),
+                      ))),
+            )
           ],
         );
       },
@@ -120,8 +124,7 @@ class ItemList extends StatelessWidget {
 }
 
 Future<List> getData() async {
-  final response =
-      await http.get(Uri.parse('http://192.168.1.7/cobak/getdata.php'));
+  final response = await http.get(Uri.parse(terfavoritApi));
   return jsonDecode(response.body);
 }
 

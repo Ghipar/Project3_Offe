@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_3/dashboard.dart';
+import 'package:project_3/dashboardProf.dart';
+import 'package:project_3/dashboardVou.dart';
 import 'package:project_3/forgotPass.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
+import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/screen.dart';
 import 'package:project_3/splash.dart';
@@ -28,6 +31,8 @@ class MyApp extends StatelessWidget {
         '/screen': (BuildContext context) => new screen(),
         '/regis': (BuildContext context) => new regis(),
         '/fpass': (BuildContext context) => new forgotPass(),
+        '/prof': (BuildContext context) => new dashboardprof(),
+        '/vou': (BuildContext context) => new dashboardvou(),
       },
     );
   }

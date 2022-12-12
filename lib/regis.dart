@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:project_3/api.dart';
 import 'package:flutter/material.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/regis.dart';
@@ -21,9 +21,8 @@ TextEditingController pass = TextEditingController();
 class _regisState extends State<regis> {
   var obscuretext1 = true;
   bool isValid = false;
-  Future<List> _adddata() async {
-    final response = await http
-        .post(Uri.parse("http://192.168.1.7/cobak/register.php"), body: {
+  Future<List> _regis() async {
+    final response = await http.post(Uri.parse(registerApi), body: {
       "Username": user.text,
       "Email": email.text,
       "Password": pass.text,
@@ -242,7 +241,7 @@ class _regisState extends State<regis> {
                     onPressed: isValid == false
                         ? null
                         : () {
-                            _adddata();
+                            _regis();
                           },
                   )),
               SizedBox(

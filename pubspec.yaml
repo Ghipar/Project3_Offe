@@ -43,6 +43,11 @@ dependencies:
   http: ^0.13.5
   email_validator: ^2.1.17
   validators: ^3.0.0
+  image_picker: ^0.8.6
+  shared_preferences: ^2.0.15
+  path_provider: "^2.0.1"
+  image: "^2.0.4"
+  like_button: ^2.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

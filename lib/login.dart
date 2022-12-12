@@ -3,10 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:project_3/dashboard.dart';
+import 'package:project_3/home.dart';
 import 'package:project_3/regis.dart';
 import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
 import 'package:validators/validators.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project_3/api.dart';
+
+var finaluser;
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -56,19 +61,27 @@ class _loginState extends State<login> {
   var obscuretext1 = true;
   bool isValid = false;
   Future<List> _login() async {
-    final response =
-        await http.post(Uri.parse("http://192.168.1.7/cobak/login.php"), body: {
+    final response = await http.post(Uri.parse(loginApi), body: {
       "Username": user.text,
       "Password": pass.text,
     });
- 
+
     var datauser = jsonDecode(response.body);
     if (datauser.length == 0) {
       setState(() {
         showSnackBarFav(context);
       });
     } else {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('username', user.text);
+      final SharedPreferences sharedPreferences1 =
+          await SharedPreferences.getInstance();
+      var obtainedEmail = sharedPreferences1.getString('username');
+      finaluser = obtainedEmail;
+
       Navigator.pushReplacementNamed(context, '/dashboard');
+
       setState(() {
         username = datauser[0]['Username'];
       });
@@ -250,6 +263,9 @@ class _loginState extends State<login> {
                                     color: Color.fromARGB(255, 76, 101, 75))))),
                     onPressed: () {
                       _login();
+                      getDataBanner();
+                      getDataterlaris();
+                      getDataterfavorit();
                     },
                   )),
               SizedBox(

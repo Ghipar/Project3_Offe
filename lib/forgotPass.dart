@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
+import 'package:project_3/api.dart';
 import 'package:validators/validators.dart';
 import 'package:http/http.dart' as http;
 
@@ -55,8 +56,7 @@ class _forgotPassState extends State<forgotPass> {
   bool isValid = false;
   var obscuretext1 = true;
   Future<List> _konfirmasi() async {
-    final response = await http
-        .post(Uri.parse("http://192.168.1.7/cobak/resetPass.php"), body: {
+    final response = await http.post(Uri.parse(respasApi), body: {
       "Email": emai.text,
       "Password": pass.text,
     });

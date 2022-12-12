@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:project_3/api.dart';
 import 'package:project_3/db.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
+import 'package:like_button/like_button.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -14,13 +16,43 @@ class home extends StatefulWidget {
   _homeState createState() => _homeState();
 }
 
+List<dynamic> banner = [];
+List<dynamic> terlaris = [];
+List<dynamic> terfavorit = [];
+
+Future<List> getDataTerdekat() async {
+  final response = await http.get(Uri.parse(terdekatApi));
+  return jsonDecode(response.body);
+}
+
+Future<List> getDataBanner() async {
+  final response = await http.get(Uri.parse(bannerApi));
+  final get = jsonDecode(response.body);
+  banner = get;
+  return get;
+}
+
+Future<List> getDataterlaris() async {
+  final response = await http.get(Uri.parse(terlarisApi));
+  final get = jsonDecode(response.body);
+  terlaris = get;
+  return get;
+}
+
+Future<List> getDataterfavorit() async {
+  final response = await http.get(Uri.parse(terfavoritApi));
+  final get = jsonDecode(response.body);
+  terfavorit = get;
+  return get;
+}
+
 class ItemList extends StatelessWidget {
   final List list;
   const ItemList({super.key, required this.list});
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(children: [
+    return ListView(children: [
       Column(
         children: [
           // Carousel(),
@@ -28,13 +60,15 @@ class ItemList extends StatelessWidget {
             height: 250,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: list == null ? 0 : list.length,
+                itemCount: banner == null ? 0 : banner.length,
                 itemBuilder: (context, i) {
+                  final img = banner[i];
+                  final gambar = img['Gambar'];
                   return Column(
                     children: [
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 30.0, left: 10.0, right: 10.0),
                           child: Card(
                             clipBehavior: Clip.antiAlias,
@@ -42,9 +76,7 @@ class ItemList extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
-                              onTap: () {
-                                print('hola');
-                              },
+                              onTap: null,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,8 +85,8 @@ class ItemList extends StatelessWidget {
                                     alignment: Alignment.bottomLeft,
                                     children: [
                                       Ink.image(
-                                        image: NetworkImage(
-                                            '${list[i]['gambar_banner']}'),
+                                        image:
+                                            NetworkImage('$imgProf${gambar}'),
                                         height: 200,
                                         width: 380,
                                         fit: BoxFit.fitWidth,
@@ -71,7 +103,7 @@ class ItemList extends StatelessWidget {
                   );
                 }),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Center(
@@ -79,7 +111,9 @@ class ItemList extends StatelessWidget {
               elevation: 8,
               borderRadius: BorderRadius.circular(20.0),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/vou');
+                },
                 child: Container(
                   padding: EdgeInsets.all(0.0),
                   height: 60.0, //MediaQuery.of(context).size.width * .08,
@@ -98,7 +132,7 @@ class ItemList extends StatelessWidget {
                             color: Color.fromARGB(255, 78, 210, 162),
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.credit_card,
                             color: Colors.white,
                             size: 35,
@@ -108,7 +142,7 @@ class ItemList extends StatelessWidget {
                       Expanded(
                           child: Container(
                         padding: EdgeInsets.only(left: 20.0),
-                        child: Text(
+                        child: const Text(
                           'Ada voucher gabut....',
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -147,10 +181,10 @@ class ItemList extends StatelessWidget {
                             border: Border.all(color: Colors.black)),
                         child: Image.asset('assets/icons/mapss.png')),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    margin: EdgeInsets.only(left: 30.0),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30.0),
+                    child: const Text(
                       'Terdekat',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -218,9 +252,7 @@ class ItemList extends StatelessWidget {
               Column(
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      print('sattt');
-                    },
+                    onTap: () {},
                     child: Container(
                         margin: EdgeInsets.only(left: 20.0),
                         width: 59.0,
@@ -267,7 +299,7 @@ class ItemList extends StatelessWidget {
                     children: [
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 15.0, left: 10.0, right: 5.0),
                           child: Card(
                             clipBehavior: Clip.antiAlias,
@@ -287,9 +319,9 @@ class ItemList extends StatelessWidget {
                                     children: [
                                       Ink.image(
                                         image: NetworkImage(
-                                            '${list[i]['gambar_toko']}'),
+                                            '$imgProf${list[i]['gambar_toko']}'),
                                         height: 100,
-                                        width: 180,
+                                        width: 185,
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ],
@@ -304,27 +336,56 @@ class ItemList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          '0,6 Km',
-                                          style:
-                                              TextStyle(color: Colors.black54),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '0,6 Km',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(' | ',
+                                                style: TextStyle(
+                                                    color: Colors.black54)),
+                                            Container(
+                                              width: 40,
+                                              child: Text(
+                                                '${list[i]['Produk_Terjual']}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                'Terjual',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                         Text('${list[i]['Nama_toko']}'),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Row(
                                           children: [
                                             Container(
                                                 padding: EdgeInsets.only(
                                                   bottom: 3.0,
-                                                  left: 42.0,
+                                                  left: 15.0,
                                                 ),
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      showSnackBarFav(context);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.favorite,
-                                                      color: Colors.pink,
-                                                    ))),
+                                                child: LikeButton(
+                                                  size: 25,
+                                                  likeCount: int.parse(
+                                                      list[i]['like']),
+                                                )),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
                                             Container(
                                               padding:
                                                   EdgeInsets.only(bottom: 3.0),
@@ -370,11 +431,12 @@ class ItemList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: list == null ? 0 : list.length,
                 itemBuilder: (context, i) {
+                  final fav = terfavorit[i];
                   return Column(
                     children: [
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 15.0, left: 10.0, right: 5.0),
                           child: Card(
                             clipBehavior: Clip.antiAlias,
@@ -394,9 +456,9 @@ class ItemList extends StatelessWidget {
                                     children: [
                                       Ink.image(
                                         image: NetworkImage(
-                                            '${list[i]['gambar_toko']}'),
+                                            '$imgProf${fav['gambar_toko']}'),
                                         height: 100,
-                                        width: 180,
+                                        width: 185,
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ],
@@ -411,27 +473,56 @@ class ItemList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          '0,6 Km',
-                                          style:
-                                              TextStyle(color: Colors.black54),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '0,6 Km',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(' | ',
+                                                style: TextStyle(
+                                                    color: Colors.black54)),
+                                            Container(
+                                              width: 40,
+                                              child: Text(
+                                                '${fav['Produk_Terjual']}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                'Terjual',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Text('${list[i]['Nama_toko']}'),
+                                        Text('${fav['Nama_toko']}'),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Row(
                                           children: [
                                             Container(
                                                 padding: EdgeInsets.only(
                                                   bottom: 3.0,
-                                                  left: 42.0,
+                                                  left: 15.0,
                                                 ),
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      showSnackBarFav(context);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.favorite,
-                                                      color: Colors.pink,
-                                                    ))),
+                                                child: LikeButton(
+                                                  size: 25,
+                                                  likeCount:
+                                                      int.parse(fav['like']),
+                                                )),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
                                             Container(
                                               padding:
                                                   EdgeInsets.only(bottom: 3.0),
@@ -477,11 +568,12 @@ class ItemList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: list == null ? 0 : list.length,
                 itemBuilder: (context, i) {
+                  final laris = terlaris[i];
                   return Column(
                     children: [
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 15.0, left: 10.0, right: 5.0),
                           child: Card(
                             clipBehavior: Clip.antiAlias,
@@ -501,9 +593,9 @@ class ItemList extends StatelessWidget {
                                     children: [
                                       Ink.image(
                                         image: NetworkImage(
-                                            '${list[i]['gambar_toko']}'),
+                                            '$imgProf${laris['gambar_toko']}'),
                                         height: 100,
-                                        width: 180,
+                                        width: 185,
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ],
@@ -518,27 +610,56 @@ class ItemList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          '0,6 Km',
-                                          style:
-                                              TextStyle(color: Colors.black54),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '0,6 Km',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(' | ',
+                                                style: TextStyle(
+                                                    color: Colors.black54)),
+                                            Container(
+                                              width: 40,
+                                              child: Text(
+                                                '${laris['Produk_Terjual']}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                'Terjual',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Text('${list[i]['Nama_toko']}'),
+                                        Text('${laris['Nama_toko']}'),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Row(
                                           children: [
                                             Container(
                                                 padding: EdgeInsets.only(
                                                   bottom: 3.0,
-                                                  left: 42.0,
+                                                  left: 15.0,
                                                 ),
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      showSnackBarFav(context);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.favorite,
-                                                      color: Colors.pink,
-                                                    ))),
+                                                child: LikeButton(
+                                                  size: 25,
+                                                  likeCount:
+                                                      int.parse(laris['like']),
+                                                )),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
                                             Container(
                                               padding:
                                                   EdgeInsets.only(bottom: 3.0),
@@ -573,120 +694,35 @@ class ItemList extends StatelessWidget {
   }
 }
 
-Future<List> getData() async {
-  final response =
-      await http.get(Uri.parse('http://192.168.1.7/cobak/getdata.php'));
-  return jsonDecode(response.body);
-}
-
 class _homeState extends State<home> {
   bool isPressed = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new FutureBuilder<List>(
-          future: getData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              Text("error bre");
-            }
-            return snapshot.hasData
-                ? new ItemList(
-                    list: snapshot.data ?? [],
-                  )
-                : new Center(
-                    child: CircularProgressIndicator(),
-                  );
-          }),
+      body: RefreshIndicator(
+        child: FutureBuilder<List>(
+            future: getDataTerdekat(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                Text("error bre");
+              }
+              return snapshot.hasData
+                  ? ItemList(
+                      list: snapshot.data ?? [],
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+            }),
+        onRefresh: () {
+          getDataBanner();
+          getDataterlaris();
+          getDataterfavorit();
+          return Navigator.pushReplacementNamed(context, '/dashboard');
+        },
+      ),
     );
   }
-}
-
-class Carousel extends StatefulWidget {
-  const Carousel({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<Carousel> createState() => _CarouselState();
-}
-
-class _CarouselState extends State<Carousel> {
-  late PageController _pageController;
-
-  List<String> images = [
-    "https://i.ibb.co/7twJjxM/aot.jpg",
-    "https://i.ibb.co/Xb7jCjW/gugu.jpg",
-    "https://i.ibb.co/gvJsMvm/original.jpg"
-  ];
-
-  int activePage = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(viewportFraction: 0.8, initialPage: 1);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 230,
-          child: PageView.builder(
-              itemCount: images.length,
-              pageSnapping: true,
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  activePage = page;
-                });
-              },
-              itemBuilder: (context, pagePosition) {
-                bool active = pagePosition == activePage;
-                return slider(images, pagePosition, active);
-              }),
-        ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: indicators(images.length, activePage))
-      ],
-    );
-  }
-}
-
-AnimatedContainer slider(images, pagePosition, active) {
-  double margin = active ? 0.0 : 10;
-
-  return AnimatedContainer(
-    duration: Duration(milliseconds: 500),
-    curve: Curves.easeInOutCubic,
-    margin: EdgeInsets.all(margin),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(image: NetworkImage(images[pagePosition]))),
-  );
-}
-
-imageAnimation(PageController animation, images, pagePosition) {
-  return AnimatedBuilder(
-    animation: animation,
-    builder: (context, widget) {
-      print(pagePosition);
-
-      return SizedBox(
-        width: 200,
-        height: 200,
-        child: widget,
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.all(10),
-      child: Image.network(images[pagePosition]),
-    ),
-  );
 }
 
 void showSnackBarFav(BuildContext context) {
@@ -704,17 +740,4 @@ void showSnackBarFav(BuildContext context) {
     elevation: 30,
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
-
-List<Widget> indicators(imagesLength, currentIndex) {
-  return List<Widget>.generate(imagesLength, (index) {
-    return Container(
-      margin: EdgeInsets.all(3),
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-          color: currentIndex == index ? Colors.black : Colors.black26,
-          shape: BoxShape.circle),
-    );
-  });
 }
