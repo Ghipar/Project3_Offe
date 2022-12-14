@@ -9,11 +9,11 @@ import 'package:project_3/api.dart';
 import 'package:project_3/test.dart';
 import 'package:like_button/like_button.dart';
 
-class Terdekat extends StatefulWidget {
-  const Terdekat({super.key});
+class Terfavorit extends StatefulWidget {
+  const Terfavorit({super.key});
 
   @override
-  State<Terdekat> createState() => _TerdekatState();
+  State<Terfavorit> createState() => _TerfavoritState();
 }
 
 class ItemList extends StatelessWidget {
@@ -149,11 +149,11 @@ class ItemList extends StatelessWidget {
 }
 
 Future<List> getData() async {
-  final response = await http.get(Uri.parse(terdekatApi));
+  final response = await http.get(Uri.parse(terfavoritApi));
   return jsonDecode(response.body);
 }
 
-class _TerdekatState extends State<Terdekat> {
+class _TerfavoritState extends State<Terfavorit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +166,7 @@ class _TerdekatState extends State<Terdekat> {
                 children: [
                   Container(
                     child: Text(
-                      'Terdekat',
+                      'Terfavorit',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -179,7 +179,7 @@ class _TerdekatState extends State<Terdekat> {
               Row(
                 children: [
                   Text(
-                    'Cobain caffe terdekat dari lokasimu :)',
+                    'Cobain caffe terfavorit kami :)',
                     style: TextStyle(fontSize: 15),
                   )
                 ],

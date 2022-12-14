@@ -8,6 +8,8 @@ import 'package:project_3/db.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
 import 'package:like_button/like_button.dart';
+import 'package:project_3/terfavorit.dart';
+import 'package:project_3/terlaris.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -197,7 +199,7 @@ class ItemList extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => dB(),
+                          builder: (_) => Terfavorit(),
                         ),
                       );
                     },
@@ -226,7 +228,11 @@ class ItemList extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      print('sattt');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => Terlaris(),
+                        ),
+                      );
                     },
                     child: Container(
                         padding: EdgeInsets.all(8.0),
