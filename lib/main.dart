@@ -9,6 +9,9 @@ import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/screen.dart';
 import 'package:project_3/splash.dart';
+import 'package:project_3/terdekat.dart';
+import 'package:project_3/terfavorit.dart';
+import 'package:project_3/terlaris.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +36,9 @@ class MyApp extends StatelessWidget {
         '/fpass': (BuildContext context) => new forgotPass(),
         '/prof': (BuildContext context) => new dashboardprof(),
         '/vou': (BuildContext context) => new dashboardvou(),
+        '/dekat': (BuildContext context) => new Terdekat(),
+        '/fav': (BuildContext context) => new Terfavorit(),
+        '/laris': (BuildContext context) => new Terlaris(),
       },
     );
   }

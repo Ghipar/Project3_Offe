@@ -5,6 +5,9 @@ import 'package:project_3/home.dart';
 import 'package:project_3/screen.dart';
 import 'package:project_3/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 Future<void> kill() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -19,9 +22,50 @@ class splash extends StatefulWidget {
 }
 
 class _splashState extends State<splash> {
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error(
+        'Location service not enabled',
+      );
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error(
+          'Location permission denied',
+        );
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permission denied forever, we cannot access',
+      );
+    }
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
+  Future<void> getAddressFromLongLat(Position position) async {
+    List<Placemark> placemark =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemark);
+    Placemark place = placemark[0];
+    setState(() {
+      address = '${place.subLocality}, ${place.subAdministrativeArea}';
+    });
+  }
+
   @override
   void initState() {
     getValidationData().whenComplete(() async {
+      Position position = await _getGeoLocationPosition();
       Timer(Duration(seconds: 2), () {
         getDataBanner();
         getDataterlaris();
@@ -29,6 +73,11 @@ class _splashState extends State<splash> {
         Navigator.pushReplacementNamed(
             context, finaluser == null ? '/screen' : '/dashboard');
       });
+
+      setState(() {
+        location = '${position.latitude}, ${position.longitude}';
+      });
+      getAddressFromLongLat(position);
     });
     super.initState();
   }

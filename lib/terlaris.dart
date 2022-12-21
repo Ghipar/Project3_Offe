@@ -6,8 +6,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:project_3/api.dart';
+import 'package:project_3/home.dart';
 import 'package:project_3/test.dart';
 import 'package:like_button/like_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Terlaris extends StatefulWidget {
   const Terlaris({super.key});
@@ -114,9 +116,31 @@ class ItemList extends StatelessWidget {
                                   padding:
                                       EdgeInsets.only(left: 15, bottom: 3.0),
                                   child: LikeButton(
+                                    isLiked: list[i]['like_status'] == ''
+                                        ? false
+                                        : true,
                                     size: 25,
+                                    likeCount: int.parse(list[i]['like_count']),
+                                    onTap: (isLiked) async {
+                                      final SharedPreferences
+                                          sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      sharedPreferences.setString(
+                                          'kd', list[i]['Kode_Toko']);
+                                      final SharedPreferences
+                                          sharedPreferences1 =
+                                          await SharedPreferences.getInstance();
+                                      var kode =
+                                          sharedPreferences1.getString('kd');
+                                      kodto = kode;
+                                      print(kodto);
+                                      isLiked == false
+                                          ? getDataceklike() //nambah
+                                          : getDataceklike(); //kurang
+
+                                      return !isLiked;
+                                    },
                                     countPostion: CountPostion.right,
-                                    likeCount: int.parse(list[i]['like']),
                                   )),
                               // Row(
 
@@ -189,20 +213,29 @@ class _TerlarisState extends State<Terlaris> {
         ),
         backgroundColor: Colors.green[300],
       ),
-      body: new FutureBuilder<List>(
-          future: getData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              Text("error bre");
-            }
-            return snapshot.hasData
-                ? new ItemList(
-                    list: snapshot.data ?? [],
-                  )
-                : new Center(
-                    child: CircularProgressIndicator(),
-                  );
-          }),
+      body: RefreshIndicator(
+        child: FutureBuilder<List>(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                Text("error bre");
+              }
+              return snapshot.hasData
+                  ? ItemList(
+                      list: snapshot.data ?? [],
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+            }),
+        onRefresh: () {
+          getDataBanner();
+          getDataterlaris();
+          getDataterfavorit();
+          // getDataceklike();
+          return Navigator.pushReplacementNamed(context, '/laris');
+        },
+      ),
     );
   }
 }

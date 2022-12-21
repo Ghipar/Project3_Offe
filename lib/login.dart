@@ -10,6 +10,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:validators/validators.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_3/api.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 var finaluser;
 
@@ -55,7 +58,50 @@ void showSnackBarFav1(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
+String location = '___';
+String address = '___';
+
 class _loginState extends State<login> {
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error(
+        'Location service not enabled',
+      );
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error(
+          'Location permission denied',
+        );
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permission denied forever, we cannot access',
+      );
+    }
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
+  Future<void> getAddressFromLongLat(Position position) async {
+    List<Placemark> placemark =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemark);
+    Placemark place = placemark[0];
+    setState(() {
+      address = '${place.subLocality}, ${place.subAdministrativeArea}';
+    });
+  }
+
   TextEditingController user = new TextEditingController();
   TextEditingController pass = new TextEditingController();
   var obscuretext1 = true;
@@ -261,7 +307,13 @@ class _loginState extends State<login> {
                                 borderRadius: BorderRadius.circular(50.0),
                                 side: BorderSide(
                                     color: Color.fromARGB(255, 76, 101, 75))))),
-                    onPressed: () {
+                    onPressed: () async {
+                      Position position = await _getGeoLocationPosition();
+                      setState(() {
+                        location =
+                            '${position.latitude}, ${position.longitude}';
+                      });
+                      getAddressFromLongLat(position);
                       _login();
                       getDataBanner();
                       getDataterlaris();
