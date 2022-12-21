@@ -21,14 +21,14 @@ class splash extends StatefulWidget {
 class _splashState extends State<splash> {
   @override
   void initState() {
-    getDataBanner();
-    getDataterlaris();
-    getDataterfavorit();
     getValidationData().whenComplete(() async {
-      Timer(
-          Duration(seconds: 2),
-          () => Navigator.pushReplacementNamed(
-              context, finaluser == null ? '/screen' : '/dashboard'));
+      Timer(Duration(seconds: 2), () {
+        getDataBanner();
+        getDataterlaris();
+        getDataterfavorit();
+        Navigator.pushReplacementNamed(
+            context, finaluser == null ? '/screen' : '/dashboard');
+      });
     });
     super.initState();
   }

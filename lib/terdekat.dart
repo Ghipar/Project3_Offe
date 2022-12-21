@@ -116,7 +116,7 @@ class ItemList extends StatelessWidget {
                                   child: LikeButton(
                                     size: 25,
                                     countPostion: CountPostion.right,
-                                    likeCount: int.parse(list[i]['like']),
+                                    likeCount: int.parse(list[i]['like_count']),
                                   )),
                               // Row(
 

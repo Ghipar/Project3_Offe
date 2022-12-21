@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:project_3/api.dart';
 import 'package:project_3/db.dart';
+import 'package:project_3/login.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
 import 'package:like_button/like_button.dart';
 import 'package:project_3/terfavorit.dart';
 import 'package:project_3/terlaris.dart';
+import 'package:validators/validators.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -21,7 +24,8 @@ class home extends StatefulWidget {
 List<dynamic> banner = [];
 List<dynamic> terlaris = [];
 List<dynamic> terfavorit = [];
-
+List<dynamic> cekilike = [];
+var kodto;
 Future<List> getDataTerdekat() async {
   final response = await http.get(Uri.parse(terdekatApi));
   return jsonDecode(response.body);
@@ -46,6 +50,15 @@ Future<List> getDataterfavorit() async {
   final get = jsonDecode(response.body);
   terfavorit = get;
   return get;
+}
+
+Future<List> getDataceklike() async {
+  final response = await http.post(Uri.parse(ceklike), body: {
+    "Kode_Toko": kodto,
+    "Username": finaluser,
+  });
+  var data = jsonDecode(response.body);
+  return data;
 }
 
 class ItemList extends StatelessWidget {
@@ -385,9 +398,37 @@ class ItemList extends StatelessWidget {
                                                   left: 15.0,
                                                 ),
                                                 child: LikeButton(
+                                                  isLiked: list[i]
+                                                              ['like_status'] ==
+                                                          ''
+                                                      ? false
+                                                      : true,
                                                   size: 25,
                                                   likeCount: int.parse(
-                                                      list[i]['like']),
+                                                      list[i]['like_count']),
+                                                  onTap: (isLiked) async {
+                                                    final SharedPreferences
+                                                        sharedPreferences =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    sharedPreferences.setString(
+                                                        'kd',
+                                                        list[i]['Kode_Toko']);
+                                                    final SharedPreferences
+                                                        sharedPreferences1 =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    var kode =
+                                                        sharedPreferences1
+                                                            .getString('kd');
+                                                    kodto = kode;
+                                                    print(kodto);
+                                                    isLiked == false
+                                                        ? getDataceklike() //nambah
+                                                        : getDataceklike(); //kurang
+
+                                                    return !isLiked;
+                                                  },
                                                 )),
                                             SizedBox(
                                               width: 20,
@@ -438,6 +479,7 @@ class ItemList extends StatelessWidget {
                 itemCount: list == null ? 0 : list.length,
                 itemBuilder: (context, i) {
                   final fav = terfavorit[i];
+
                   return Column(
                     children: [
                       Center(
@@ -522,9 +564,35 @@ class ItemList extends StatelessWidget {
                                                   left: 15.0,
                                                 ),
                                                 child: LikeButton(
+                                                  isLiked:
+                                                      fav['like_status'] == ''
+                                                          ? false
+                                                          : true,
                                                   size: 25,
-                                                  likeCount:
-                                                      int.parse(fav['like']),
+                                                  likeCount: int.parse(
+                                                      fav['like_count']),
+                                                  onTap: (isLiked) async {
+                                                    final SharedPreferences
+                                                        sharedPreferences =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    sharedPreferences.setString(
+                                                        'kd', fav['Kode_Toko']);
+                                                    final SharedPreferences
+                                                        sharedPreferences1 =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    var kode =
+                                                        sharedPreferences1
+                                                            .getString('kd');
+                                                    kodto = kode;
+                                                    print(kodto);
+                                                    isLiked == false
+                                                        ? getDataceklike() //nambah
+                                                        : getDataceklike(); //kurang
+
+                                                    return !isLiked;
+                                                  },
                                                 )),
                                             SizedBox(
                                               width: 20,
@@ -659,9 +727,36 @@ class ItemList extends StatelessWidget {
                                                   left: 15.0,
                                                 ),
                                                 child: LikeButton(
+                                                  isLiked:
+                                                      laris['like_status'] == ''
+                                                          ? false
+                                                          : true,
                                                   size: 25,
-                                                  likeCount:
-                                                      int.parse(laris['like']),
+                                                  likeCount: int.parse(
+                                                      laris['like_count']),
+                                                  onTap: (isLiked) async {
+                                                    final SharedPreferences
+                                                        sharedPreferences =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    sharedPreferences.setString(
+                                                        'kd',
+                                                        laris['Kode_Toko']);
+                                                    final SharedPreferences
+                                                        sharedPreferences1 =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    var kode =
+                                                        sharedPreferences1
+                                                            .getString('kd');
+                                                    kodto = kode;
+                                                    print(kodto);
+                                                    isLiked == false
+                                                        ? getDataceklike() //nambah
+                                                        : getDataceklike(); //kurang
+
+                                                    return !isLiked;
+                                                  },
                                                 )),
                                             SizedBox(
                                               width: 20,
@@ -724,6 +819,7 @@ class _homeState extends State<home> {
           getDataBanner();
           getDataterlaris();
           getDataterfavorit();
+          // getDataceklike();
           return Navigator.pushReplacementNamed(context, '/dashboard');
         },
       ),
