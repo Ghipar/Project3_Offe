@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_3/dashboard.dart';
 import 'package:project_3/dashboardVou.dart';
 import 'package:project_3/home.dart';
+import 'package:project_3/login.dart';
 import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/search.dart';
@@ -57,13 +58,13 @@ class _dashboardprofState extends State<dashboardprof> {
                       margin: EdgeInsets.only(left: 20.0, top: 20.0),
                       child: Icon(Icons.location_city)),
                   Container(
-                      margin: EdgeInsets.only(left: 15.0, top: 20.0),
+                      margin: EdgeInsets.only(left: 10.0, top: 20.0),
                       child: Text(
-                        'Lokasi kamu',
+                        '${address}',
                         style: TextStyle(fontSize: 14),
                       )),
                   Container(
-                      margin: EdgeInsets.only(left: 170, top: 20),
+                      margin: EdgeInsets.only(left: 48, top: 20),
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {},
