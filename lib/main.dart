@@ -5,6 +5,7 @@ import 'package:project_3/dashboardVou.dart';
 import 'package:project_3/forgotPass.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
+import 'package:project_3/lovePage.dart';
 import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/screen.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/dekat': (BuildContext context) => new Terdekat(),
         '/fav': (BuildContext context) => new Terfavorit(),
         '/laris': (BuildContext context) => new Terlaris(),
+        '/lvp': (BuildContext context) => new lovePages(),
       },
     );
   }

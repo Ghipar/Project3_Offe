@@ -25,7 +25,7 @@ class searchPage extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) => Center(
         child: Text(
-          query,
+          '${query.length}',
           style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
         ),
       );

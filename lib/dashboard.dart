@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
+import 'package:project_3/lovePage.dart';
 import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/search.dart';
@@ -65,7 +66,13 @@ class _dashboardState extends State<dashboard> {
                       margin: EdgeInsets.only(left: 48, top: 20),
                       child: IconButton(
                         padding: EdgeInsets.zero,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => lovePages(),
+                            ),
+                          );
+                        },
                         icon: Icon(Icons.favorite),
                       )),
                 ],
