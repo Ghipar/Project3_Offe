@@ -1,12 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:project_3/api.dart';
+import 'package:project_3/home.dart';
+import 'package:project_3/test.dart';
+import 'package:like_button/like_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class searchPage extends SearchDelegate {
   List<String> searchResults = [
-    'Caffe wibu',
-    'Starbuck',
-    'Conatto',
-    'Mbo karep',
+    'Caffe wuft',
+    'hok',
+    'kage',
+    'siuu',
   ];
+  Future<List> getDatasear() async {
+    final response = await http.post(Uri.parse(sear), body: {
+      "name": query,
+    });
+    var data = jsonDecode(response.body);
+    return data;
+  }
+
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
       onPressed: () => close(context, null), icon: Icon(Icons.arrow_back));
@@ -24,9 +44,28 @@ class searchPage extends SearchDelegate {
       ];
   @override
   Widget buildResults(BuildContext context) => Center(
-        child: Text(
-          '${query.length}',
-          style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
+        child: RefreshIndicator(
+          child: FutureBuilder<List>(
+              future: getDatasear(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  Text("error bre");
+                }
+                return snapshot.hasData
+                    ? ItemList(
+                        list: snapshot.data ?? [],
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      );
+              }),
+          onRefresh: () {
+            getDataBanner();
+            getDataterlaris();
+            getDataterfavorit();
+            // getDataceklike();
+            return showSearch(context: context, delegate: searchPage());
+          },
         ),
       );
   @override
@@ -48,6 +87,151 @@ class searchPage extends SearchDelegate {
             query = suggestion;
             showResults(context);
           },
+        );
+      },
+    );
+  }
+}
+
+class ItemList extends StatelessWidget {
+  final List list;
+  const ItemList({super.key, required this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    Text('${list.length}');
+    return ListView.builder(
+      itemCount: list == null ? 0 : list.length,
+      itemBuilder: (context, i) {
+        return Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  elevation: 5,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 254, 254, 254),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 6),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 70.0,
+                                height: 70.0,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    '$imgProf${list[i]['gambar_toko']}',
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 24,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${list[i]['Nama_toko']}",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '0,6 km',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                      Text(
+                                        ' | ',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                      Container(
+                                        width: 40,
+                                        child: Text(
+                                          '${list[i]['Produk_Terjual']}',
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Terjual',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(left: 15, bottom: 3.0),
+                              child: LikeButton(
+                                isLiked:
+                                    list[i]['like_status'] == '' ? false : true,
+                                size: 25,
+                                likeCount: int.parse(list[i]['like_count']),
+                                onTap: (isLiked) async {
+                                  final SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.setString(
+                                      'kd', list[i]['Kode_Toko']);
+                                  final SharedPreferences sharedPreferences1 =
+                                      await SharedPreferences.getInstance();
+                                  var kode = sharedPreferences1.getString('kd');
+                                  kodto = kode;
+                                  print(kodto);
+                                  isLiked == false
+                                      ? getDataceklike() //nambah
+                                      : getDataceklike(); //kurang
+
+                                  return !isLiked;
+                                },
+                                countPostion: CountPostion.right,
+                              )),
+                          // Row(
+
+                          //   children: [
+                          //     Container(
+                          //       padding: EdgeInsets.only(bottom: 5.0),
+                          //       child: Icon(
+                          //         Icons.star,
+                          //         color: Colors.amber,
+                          //       ),
+                          //     ),
+                          //     Container(
+                          //       padding: EdgeInsets.only(
+                          //         right: 10.0,
+                          //       ),
+                          //       child: Text("4.5"),
+                          //     ),
+                          //   ],
+                          // )
+                        ],
+                      ),
+                    ),
+                  )),
+            )
+          ],
         );
       },
     );

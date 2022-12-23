@@ -11,3 +11,4 @@ String imgProf = 'http://192.168.1.7/cobak/profile/';
 String editProfApi = 'http://192.168.1.7/cobak/editProf.php';
 String ceklike = 'http://192.168.1.7/cobak/ceklike.php';
 String lvpages = 'http://192.168.1.7/cobak/lovePages.php';
+String sear = 'http://192.168.1.7/cobak/search.php';
