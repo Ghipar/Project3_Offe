@@ -56,10 +56,13 @@ class _dashboardvouState extends State<dashboardvou> {
                       margin: EdgeInsets.only(left: 20.0, top: 20.0),
                       child: Icon(Icons.location_city)),
                   Container(
+                      width: 216,
                       margin: EdgeInsets.only(left: 10.0, top: 20.0),
                       child: Text(
                         '${address}',
                         style: TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       )),
                   Container(
                       margin: EdgeInsets.only(left: 48, top: 20),
