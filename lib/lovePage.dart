@@ -24,141 +24,161 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
-      itemBuilder: (context, i) {
-        return Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  elevation: 5,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 254, 254, 254),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 6),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 70.0,
-                                height: 70.0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    '$imgProf${list[i]['gambar_toko']}',
-                                    width: 70,
-                                    height: 70,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 24,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${list[i]['Nama_toko']}",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '0,6 km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Text(
-                                        ' | ',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                      Container(
-                                        width: 40,
-                                        child: Text(
-                                          '${list[i]['Produk_Terjual']}',
-                                          style:
-                                              TextStyle(color: Colors.black54),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+    return list.length != 0
+        ? ListView.builder(
+            itemCount: list == null ? 0 : list.length,
+            itemBuilder: (context, i) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        elevation: 5,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 254, 254, 254),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 6),
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 70.0,
+                                      height: 70.0,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          '$imgProf${list[i]['gambar_toko']}',
+                                          width: 70,
+                                          height: 70,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      Text(
-                                        'Terjual',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
+                                    ),
+                                    SizedBox(
+                                      width: 24,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${list[i]['Nama_toko']}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '0,6 km',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(
+                                              ' | ',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                            Container(
+                                              width: 40,
+                                              child: Text(
+                                                '${list[i]['Produk_Terjual']}',
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Terjual',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                    padding:
+                                        EdgeInsets.only(left: 15, bottom: 3.0),
+                                    child: LikeButton(
+                                      isLiked: list[i]['like_status'] == ''
+                                          ? false
+                                          : true,
+                                      size: 25,
+                                      likeCount:
+                                          int.parse(list[i]['like_count']),
+                                      onTap: (isLiked) async {
+                                        final SharedPreferences
+                                            sharedPreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        sharedPreferences.setString(
+                                            'kd', list[i]['Kode_Toko']);
+                                        final SharedPreferences
+                                            sharedPreferences1 =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var kode =
+                                            sharedPreferences1.getString('kd');
+                                        kodto = kode;
+                                        print(kodto);
+                                        isLiked == false
+                                            ? getDataceklike() //nambah
+                                            : getDataceklike(); //kurang
+
+                                        return !isLiked;
+                                      },
+                                      countPostion: CountPostion.right,
+                                    )),
+                                // Row(
+
+                                //   children: [
+                                //     Container(
+                                //       padding: EdgeInsets.only(bottom: 5.0),
+                                //       child: Icon(
+                                //         Icons.star,
+                                //         color: Colors.amber,
+                                //       ),
+                                //     ),
+                                //     Container(
+                                //       padding: EdgeInsets.only(
+                                //         right: 10.0,
+                                //       ),
+                                //       child: Text("4.5"),
+                                //     ),
+                                //   ],
+                                // )
+                              ],
+                            ),
                           ),
-                          Container(
-                              padding: EdgeInsets.only(left: 15, bottom: 3.0),
-                              child: LikeButton(
-                                isLiked:
-                                    list[i]['like_status'] == '' ? false : true,
-                                size: 25,
-                                likeCount: int.parse(list[i]['like_count']),
-                                onTap: (isLiked) async {
-                                  final SharedPreferences sharedPreferences =
-                                      await SharedPreferences.getInstance();
-                                  sharedPreferences.setString(
-                                      'kd', list[i]['Kode_Toko']);
-                                  final SharedPreferences sharedPreferences1 =
-                                      await SharedPreferences.getInstance();
-                                  var kode = sharedPreferences1.getString('kd');
-                                  kodto = kode;
-                                  print(kodto);
-                                  isLiked == false
-                                      ? getDataceklike() //nambah
-                                      : getDataceklike(); //kurang
-
-                                  return !isLiked;
-                                },
-                                countPostion: CountPostion.right,
-                              )),
-                          // Row(
-
-                          //   children: [
-                          //     Container(
-                          //       padding: EdgeInsets.only(bottom: 5.0),
-                          //       child: Icon(
-                          //         Icons.star,
-                          //         color: Colors.amber,
-                          //       ),
-                          //     ),
-                          //     Container(
-                          //       padding: EdgeInsets.only(
-                          //         right: 10.0,
-                          //       ),
-                          //       child: Text("4.5"),
-                          //     ),
-                          //   ],
-                          // )
-                        ],
-                      ),
-                    ),
-                  )),
-            )
-          ],
-        );
-      },
-    );
+                        )),
+                  )
+                ],
+              );
+            })
+        : Center(
+            child: Container(
+            child: Text(
+              'Belum ada caffe yang disukai',
+              style: TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
+          ));
   }
 }
 
