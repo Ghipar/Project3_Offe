@@ -79,10 +79,15 @@ class ItemList extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text(
-                                        '0,6 km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
+                                      Container(
+                                          width: 40,
+                                          child: Text(
+                                            '${terfavorit[i]['distance']} Km',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          )),
                                       Text(
                                         ' | ',
                                         style: TextStyle(color: Colors.black54),
@@ -205,7 +210,7 @@ class _TerfavoritState extends State<Terfavorit> {
       ),
       body: RefreshIndicator(
         child: FutureBuilder<List>(
-            future: getData(),
+            future: getDataterfavorit(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Text("error bre");
@@ -222,6 +227,7 @@ class _TerfavoritState extends State<Terfavorit> {
           getDataBanner();
           getDataterlaris();
           getDataterfavorit();
+          getDataTerdekat();
           // getDataceklike();
           return Navigator.pushReplacementNamed(context, '/fav');
         },

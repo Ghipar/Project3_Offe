@@ -70,6 +70,7 @@ class _splashState extends State<splash> {
         getDataBanner();
         getDataterlaris();
         getDataterfavorit();
+
         Navigator.pushReplacementNamed(
             context, finaluser == null ? '/screen' : '/dashboard');
       });

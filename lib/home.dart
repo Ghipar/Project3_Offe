@@ -27,31 +27,35 @@ List<dynamic> banner = [];
 List<dynamic> terlaris = [];
 List<dynamic> terfavorit = [];
 List<dynamic> cekilike = [];
+List<dynamic> terdekat = [];
+
 var kodto;
 Future<List> getDataTerdekat() async {
   final response = await http.get(Uri.parse(terdekatApi));
-  return jsonDecode(response.body);
+  final get = jsonDecode(response.body);
+  terdekat = await _getTheDistance(get, isSorted: true);
+  return terdekat;
 }
 
 Future<List> getDataBanner() async {
   final response = await http.get(Uri.parse(bannerApi));
   final get = jsonDecode(response.body);
   banner = get;
-  return get;
+  return banner;
 }
 
 Future<List> getDataterlaris() async {
   final response = await http.get(Uri.parse(terlarisApi));
   final get = jsonDecode(response.body);
-  terlaris = get;
-  return get;
+  terlaris = await _getTheDistance(get);
+  return terlaris;
 }
 
 Future<List> getDataterfavorit() async {
   final response = await http.get(Uri.parse(terfavoritApi));
   final get = jsonDecode(response.body);
-  terfavorit = get;
-  return get;
+  terfavorit = await _getTheDistance(get);
+  return terfavorit;
 }
 
 Future<List> getDataceklike() async {
@@ -60,8 +64,37 @@ Future<List> getDataceklike() async {
     "Username": finaluser,
   });
   var data = jsonDecode(response.body);
+  return await _getTheDistance(data);
+}
+
+Future _getTheDistance(List<dynamic> data, {bool isSorted = false}) async {
+  _currentUserPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best);
+
+  for (int i = 0; i < data.length; i++) {
+    double storelat = double.parse(data[i]['latitude']);
+    double storelng = double.parse(data[i]['longtitude']);
+
+    distanceImMeter = Geolocator.distanceBetween(
+      _currentUserPosition!.latitude,
+      _currentUserPosition!.longitude,
+      storelat,
+      storelng,
+    );
+    int? distance = distanceImMeter?.round().toInt();
+    data[i]['distance'] = (distance! / 1000);
+  }
+
+  if (isSorted) {
+    data.sort((a, b) => a['distance'].compareTo(b['distance']));
+  }
+
   return data;
 }
+
+Position? _currentUserPosition;
+double? distanceImMeter = 0.0;
+// Data data = Data();
 
 class ItemList extends StatelessWidget {
   final List list;
@@ -314,7 +347,7 @@ class ItemList extends StatelessWidget {
             height: 280,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: list == null ? 0 : list.length,
+                itemCount: terdekat == null ? 0 : terdekat.length,
                 itemBuilder: (context, i) {
                   return Column(
                     children: [
@@ -340,7 +373,7 @@ class ItemList extends StatelessWidget {
                                     children: [
                                       Ink.image(
                                         image: NetworkImage(
-                                            '$imgProf${list[i]['gambar_toko']}'),
+                                            '$imgProf${terdekat[i]['gambar_toko']}'),
                                         height: 100,
                                         width: 185,
                                         fit: BoxFit.fitWidth,
@@ -359,18 +392,26 @@ class ItemList extends StatelessWidget {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Text(
-                                              '0,6 Km',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
+                                            Container(
+                                                width: 40,
+                                                child: Text(
+                                                  '${terdekat[i]['distance']} Km',
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                )),
+                                            // Text('Km',
+                                            //     style: TextStyle(
+                                            //         color: Colors.black54)),
                                             Text(' | ',
                                                 style: TextStyle(
                                                     color: Colors.black54)),
                                             Container(
                                               width: 40,
                                               child: Text(
-                                                '${list[i]['Produk_Terjual']}',
+                                                '${terdekat[i]['Produk_Terjual']}',
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
@@ -388,7 +429,7 @@ class ItemList extends StatelessWidget {
                                             )
                                           ],
                                         ),
-                                        Text('${list[i]['Nama_toko']}'),
+                                        Text('${terdekat[i]['Nama_toko']}'),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -400,14 +441,15 @@ class ItemList extends StatelessWidget {
                                                   left: 15.0,
                                                 ),
                                                 child: LikeButton(
-                                                  isLiked: list[i]
+                                                  isLiked: terdekat[i]
                                                               ['like_status'] ==
                                                           ''
                                                       ? false
                                                       : true,
                                                   size: 25,
                                                   likeCount: int.parse(
-                                                      list[i]['like_count']),
+                                                      terdekat[i]
+                                                          ['like_count']),
                                                   onTap: (isLiked) async {
                                                     final SharedPreferences
                                                         sharedPreferences =
@@ -415,7 +457,8 @@ class ItemList extends StatelessWidget {
                                                             .getInstance();
                                                     sharedPreferences.setString(
                                                         'kd',
-                                                        list[i]['Kode_Toko']);
+                                                        terdekat[i]
+                                                            ['Kode_Toko']);
                                                     final SharedPreferences
                                                         sharedPreferences1 =
                                                         await SharedPreferences
@@ -525,11 +568,16 @@ class ItemList extends StatelessWidget {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Text(
-                                              '0,6 Km',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
+                                            Container(
+                                                width: 40,
+                                                child: Text(
+                                                  '${fav['distance']} Km',
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                )),
                                             Text(' | ',
                                                 style: TextStyle(
                                                     color: Colors.black54)),
@@ -688,11 +736,16 @@ class ItemList extends StatelessWidget {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Text(
-                                              '0,6 Km',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
+                                            Container(
+                                                width: 40,
+                                                child: Text(
+                                                  '${laris['distance']} Km',
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                )),
                                             Text(' | ',
                                                 style: TextStyle(
                                                     color: Colors.black54)),
@@ -821,73 +874,13 @@ class _homeState extends State<home> {
           getDataBanner();
           getDataterlaris();
           getDataterfavorit();
+          getDataTerdekat();
           // getDataceklike();
           return Navigator.pushReplacementNamed(context, '/dashboard');
         },
       ),
     );
   }
-
-//   Future<Position> _getGeoLocationPosition() async {
-//     bool serviceEnabled;
-//     LocationPermission permission;
-
-//     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!serviceEnabled) {
-//       await Geolocator.openLocationSettings();
-//       return Future.error(
-//         'Location service not enabled',
-//       );
-//     }
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         return Future.error(
-//           'Location permission denied',
-//         );
-//       }
-//     }
-//     if (permission == LocationPermission.deniedForever) {
-//       return Future.error(
-//         'Location permission denied forever, we cannot access',
-//       );
-//     }
-//     return await Geolocator.getCurrentPosition(
-//       desiredAccuracy: LocationAccuracy.high,
-//     );
-//   }
-
-//   _getCurrentLocation() {
-//     Geolocator.getCurrentPosition(
-//             desiredAccuracy: LocationAccuracy.bestForNavigation,
-//             forceAndroidLocationManager: true)
-//         .then((Position position) {
-//       distanceCalculation(position);
-//       setState(() {});
-//     }).catchError((e) {
-//       print(e);
-//     });
-//   }
-
-//   distanceCalculation(Position position) {
-//     for (var d in destinations) {
-//       var km = getDistanceFromLatLonInKm(
-//           position.latitude, position.longitude, d.lat, d.lng);
-//       d.distance = km;
-//       // var m = Geolocator.distanceBetween(
-//       //     position.latitude, position.longitude, d.lat, d.lng);
-//       // d.distance = m / 1000;
-
-//       destinationlist.add(d);
-//       // print(getDistanceFromLatLonInKm(position.latitude,position.longitude, d.lat,d.lng));
-//     }
-//     setState(() {
-//       destinationlist.sort((a, b) {
-//         return a.distance.compareTo(b.distance);
-//       });
-//     });
-//   }
 }
 
 void showSnackBarFav(BuildContext context) {

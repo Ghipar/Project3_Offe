@@ -79,10 +79,15 @@ class ItemList extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text(
-                                        '0,6 km',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
+                                      Container(
+                                          width: 40,
+                                          child: Text(
+                                            '${terdekat[i]['distance']} Km',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          )),
                                       Text(
                                         ' | ',
                                         style: TextStyle(color: Colors.black54),
@@ -162,10 +167,10 @@ class ItemList extends StatelessWidget {
   }
 }
 
-Future<List> getData() async {
-  final response = await http.get(Uri.parse(terdekatApi));
-  return jsonDecode(response.body);
-}
+// Future<List> getData() async {
+//   final response = await http.get(Uri.parse(terdekatApi));
+//   return jsonDecode(response.body);
+// }
 
 class _TerdekatState extends State<Terdekat> {
   @override
@@ -205,7 +210,7 @@ class _TerdekatState extends State<Terdekat> {
       ),
       body: RefreshIndicator(
         child: FutureBuilder<List>(
-            future: getData(),
+            future: getDataTerdekat(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Text("error bre");
@@ -222,6 +227,7 @@ class _TerdekatState extends State<Terdekat> {
           getDataBanner();
           getDataterlaris();
           getDataterfavorit();
+          getDataTerdekat();
           // getDataceklike();
           return Navigator.pushReplacementNamed(context, '/dekat');
         },
