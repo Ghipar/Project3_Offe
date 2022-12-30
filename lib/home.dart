@@ -8,6 +8,7 @@ import 'package:project_3/Utils.dart';
 import 'package:project_3/api.dart';
 import 'package:project_3/db.dart';
 import 'package:project_3/login.dart';
+import 'package:project_3/menu.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
 import 'package:like_button/like_button.dart';
@@ -521,7 +522,7 @@ class ItemList extends StatelessWidget {
             height: 280,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: list == null ? 0 : list.length,
+                itemCount: terfavorit == null ? 0 : terfavorit.length,
                 itemBuilder: (context, i) {
                   final fav = terfavorit[i];
 
@@ -538,7 +539,11 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                print('hola');
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          menu(index: i, list: terfavorit)),
+                                );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
