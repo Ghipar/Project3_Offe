@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:project_3/Utils.dart';
+
 import 'package:project_3/api.dart';
 import 'package:project_3/db.dart';
 import 'package:project_3/login.dart';

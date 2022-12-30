@@ -223,7 +223,6 @@ class _TerlarisState extends State<Terlaris> {
           getDataterlaris();
           getDataterfavorit();
           getDataTerdekat();
-          // getDataceklike();
           return Navigator.pushReplacementNamed(context, '/laris');
         },
       ),

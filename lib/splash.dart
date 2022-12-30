@@ -66,11 +66,11 @@ class _splashState extends State<splash> {
   void initState() {
     getValidationData().whenComplete(() async {
       Position position = await _getGeoLocationPosition();
+      getDataBanner();
+      getDataterlaris();
+      getDataterfavorit();
+      getDataTerdekat();
       Timer(Duration(seconds: 2), () {
-        getDataBanner();
-        getDataterlaris();
-        getDataterfavorit();
-
         Navigator.pushReplacementNamed(
             context, finaluser == null ? '/screen' : '/dashboard');
       });
