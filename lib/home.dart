@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
 import 'package:project_3/api.dart';
-import 'package:project_3/db.dart';
+import 'package:project_3/cart_provider.dart';
+import 'package:project_3/db_helper.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/menu.dart';
 import 'package:project_3/regis.dart';
@@ -14,6 +15,7 @@ import 'package:project_3/terdekat.dart';
 import 'package:like_button/like_button.dart';
 import 'package:project_3/terfavorit.dart';
 import 'package:project_3/terlaris.dart';
+import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
