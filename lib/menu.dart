@@ -264,7 +264,6 @@ class ItemList extends StatelessWidget {
                                               textAlign: TextAlign.justify,
                                             ),
                                           ),
-
                                           Row(
                                             children: [
                                               Container(
@@ -284,7 +283,6 @@ class ItemList extends StatelessWidget {
                                               textAlign: TextAlign.justify,
                                             ),
                                           ),
-
                                           Container(
                                               padding:
                                                   EdgeInsets.only(left: 85),
@@ -315,66 +313,9 @@ class ItemList extends StatelessWidget {
                                                     showAlertDialogc(context);
                                                   },
                                                   child: Text('Detail'))),
-
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          // Row(
-                                          //   children: [
-                                          //     Container(
-                                          //         padding: EdgeInsets.only(
-                                          //           bottom: 3.0,
-                                          //           left: 15.0,
-                                          //         ),
-                                          //         child: LikeButton(
-                                          //           isLiked: terdekat[i]
-                                          //                       ['like_status'] ==
-                                          //                   ''
-                                          //               ? false
-                                          //               : true,
-                                          //           size: 25,
-                                          //           likeCount: int.parse(
-                                          //               terdekat[i]['like_count']),
-                                          //           onTap: (isLiked) async {
-                                          //             final SharedPreferences
-                                          //                 sharedPreferences =
-                                          //                 await SharedPreferences
-                                          //                     .getInstance();
-                                          //             sharedPreferences.setString(
-                                          //                 'kd',
-                                          //                 terdekat[i]['Kode_Toko']);
-                                          //             final SharedPreferences
-                                          //                 sharedPreferences1 =
-                                          //                 await SharedPreferences
-                                          //                     .getInstance();
-                                          //             var kode = sharedPreferences1
-                                          //                 .getString('kd');
-                                          //             kodto = kode;
-                                          //             print(kodto);
-                                          //             isLiked == false
-                                          //                 ? getDataceklike() //nambah
-                                          //                 : getDataceklike(); //kurang
-
-                                          //             return !isLiked;
-                                          //           },
-                                          //         )),
-                                          //     SizedBox(
-                                          //       width: 20,
-                                          //     ),
-                                          //     Container(
-                                          //       padding:
-                                          //           EdgeInsets.only(bottom: 3.0),
-                                          //       child: Icon(
-                                          //         Icons.star,
-                                          //         color: Colors.orange,
-                                          //       ),
-                                          //     ),
-                                          //     Container(
-                                          //       padding: EdgeInsets.only(left: 5.0),
-                                          //       child: Text('4,5'),
-                                          //     )
-                                          //   ],
-                                          // )
                                         ],
                                       ),
                                     )
@@ -455,7 +396,6 @@ class ItemList extends StatelessWidget {
                                               textAlign: TextAlign.justify,
                                             ),
                                           ),
-
                                           Row(
                                             children: [
                                               Container(
@@ -475,7 +415,6 @@ class ItemList extends StatelessWidget {
                                               textAlign: TextAlign.justify,
                                             ),
                                           ),
-
                                           Container(
                                               padding:
                                                   EdgeInsets.only(left: 85),
@@ -506,66 +445,9 @@ class ItemList extends StatelessWidget {
                                                     showAlertDialogc(context);
                                                   },
                                                   child: Text('Detail'))),
-
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          // Row(
-                                          //   children: [
-                                          //     Container(
-                                          //         padding: EdgeInsets.only(
-                                          //           bottom: 3.0,
-                                          //           left: 15.0,
-                                          //         ),
-                                          //         child: LikeButton(
-                                          //           isLiked: terdekat[i]
-                                          //                       ['like_status'] ==
-                                          //                   ''
-                                          //               ? false
-                                          //               : true,
-                                          //           size: 25,
-                                          //           likeCount: int.parse(
-                                          //               terdekat[i]['like_count']),
-                                          //           onTap: (isLiked) async {
-                                          //             final SharedPreferences
-                                          //                 sharedPreferences =
-                                          //                 await SharedPreferences
-                                          //                     .getInstance();
-                                          //             sharedPreferences.setString(
-                                          //                 'kd',
-                                          //                 terdekat[i]['Kode_Toko']);
-                                          //             final SharedPreferences
-                                          //                 sharedPreferences1 =
-                                          //                 await SharedPreferences
-                                          //                     .getInstance();
-                                          //             var kode = sharedPreferences1
-                                          //                 .getString('kd');
-                                          //             kodto = kode;
-                                          //             print(kodto);
-                                          //             isLiked == false
-                                          //                 ? getDataceklike() //nambah
-                                          //                 : getDataceklike(); //kurang
-
-                                          //             return !isLiked;
-                                          //           },
-                                          //         )),
-                                          //     SizedBox(
-                                          //       width: 20,
-                                          //     ),
-                                          //     Container(
-                                          //       padding:
-                                          //           EdgeInsets.only(bottom: 3.0),
-                                          //       child: Icon(
-                                          //         Icons.star,
-                                          //         color: Colors.orange,
-                                          //       ),
-                                          //     ),
-                                          //     Container(
-                                          //       padding: EdgeInsets.only(left: 5.0),
-                                          //       child: Text('4,5'),
-                                          //     )
-                                          //   ],
-                                          // )
                                         ],
                                       ),
                                     )
@@ -628,7 +510,10 @@ class _menuState extends State<menu> {
               animationDuration: Duration(milliseconds: 300),
               // position: const BadgePosition(start: 30, bottom: 30),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CartScreen()));
+                },
                 icon: const Icon(Icons.shopping_cart),
               ),
             ),

@@ -441,7 +441,7 @@ class ItemList extends StatelessWidget {
                                             Container(
                                                 padding: EdgeInsets.only(
                                                   bottom: 3.0,
-                                                  left: 15.0,
+                                                  left: 90.0,
                                                 ),
                                                 child: LikeButton(
                                                   isLiked: terdekat[i]
@@ -481,19 +481,6 @@ class ItemList extends StatelessWidget {
                                             SizedBox(
                                               width: 20,
                                             ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 3.0),
-                                              child: Icon(
-                                                Icons.star,
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(left: 5.0),
-                                              child: Text('4,5'),
-                                            )
                                           ],
                                         )
                                       ],
@@ -618,7 +605,7 @@ class ItemList extends StatelessWidget {
                                             Container(
                                                 padding: EdgeInsets.only(
                                                   bottom: 3.0,
-                                                  left: 15.0,
+                                                  left: 90.0,
                                                 ),
                                                 child: LikeButton(
                                                   isLiked:
@@ -654,19 +641,6 @@ class ItemList extends StatelessWidget {
                                             SizedBox(
                                               width: 20,
                                             ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 3.0),
-                                              child: Icon(
-                                                Icons.star,
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(left: 5.0),
-                                              child: Text('4,5'),
-                                            )
                                           ],
                                         )
                                       ],
@@ -785,9 +759,7 @@ class ItemList extends StatelessWidget {
                                           children: [
                                             Container(
                                                 padding: EdgeInsets.only(
-                                                  bottom: 3.0,
-                                                  left: 15.0,
-                                                ),
+                                                    bottom: 3.0, left: 90),
                                                 child: LikeButton(
                                                   isLiked:
                                                       laris['like_status'] == ''
@@ -823,19 +795,6 @@ class ItemList extends StatelessWidget {
                                             SizedBox(
                                               width: 20,
                                             ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 3.0),
-                                              child: Icon(
-                                                Icons.star,
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(left: 5.0),
-                                              child: Text('4,5'),
-                                            )
                                           ],
                                         )
                                       ],
