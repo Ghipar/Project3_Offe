@@ -18,7 +18,7 @@ class DBHelper {
 
   initDatabase() async {
     io.Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path, 'cart.db');
+    String path = join(directory.path, 'keran.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
@@ -26,13 +26,13 @@ class DBHelper {
 // creating database table
   _onCreate(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE cart(id INTEGER PRIMARY KEY, productId VARCHAR UNIQUE, productName TEXT, initialPrice INTEGER, productPrice INTEGER, quantity INTEGER, unitTag TEXT, image TEXT)');
+        'CREATE TABLE keran(id VARCHAR PRIMARY KEY, productId VARCHAR UNIQUE, productName TEXT, initialPrice INTEGER, productPrice INTEGER, quantity INTEGER, unitTag TEXT, image TEXT)');
   }
 
 // inserting data into the table
   Future<Cart> insert(Cart cart) async {
     var dbClient = await database;
-    await dbClient!.insert('cart', cart.toMap());
+    await dbClient!.insert('keran', cart.toMap());
     return cart;
   }
 
@@ -40,7 +40,7 @@ class DBHelper {
   Future<List<Cart>> getCartList() async {
     var dbClient = await database;
     final List<Map<String, Object?>> queryResult =
-        await dbClient!.query('cart');
+        await dbClient!.query('keran');
     return queryResult.map((result) => Cart.fromMap(result)).toList();
   }
 
@@ -51,8 +51,13 @@ class DBHelper {
   // }
 
 // deleting an item from the cart screen
-  Future<int> deleteCartItem(int id) async {
+  Future<int> deleteCartItem(String id) async {
     var dbClient = await database;
-    return await dbClient!.delete('cart', where: 'id = ?', whereArgs: [id]);
+    return await dbClient!.delete('keran', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> clearCartItem() async {
+    var dbClient = await database;
+    return await dbClient!.delete('keran');
   }
 }

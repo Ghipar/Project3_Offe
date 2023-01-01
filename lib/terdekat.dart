@@ -9,6 +9,7 @@ import 'package:project_3/api.dart';
 import 'package:project_3/home.dart';
 
 import 'package:like_button/like_button.dart';
+import 'package:project_3/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Terdekat extends StatefulWidget {
@@ -39,7 +40,13 @@ class ItemList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   elevation: 5,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                menu(index: i, list: terdekat)),
+                      );
+                    },
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(

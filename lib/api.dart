@@ -13,4 +13,6 @@ String ceklike = 'http://192.168.1.4/cobak/ceklike.php';
 String lvpages = 'http://192.168.1.4/cobak/lovePages.php';
 String sear = 'http://192.168.1.4/cobak/search.php';
 String loca = 'http://192.168.1.4/cobak/loka.php';
-String menuapi = 'http://192.168.1.4/cobak/menu.php';
+String mknapi = 'http://192.168.1.4/cobak/makanan.php';
+String mnmapi = 'http://192.168.1.4/cobak/minuman.php';
+String pktapi = 'http://192.168.1.4/cobak/paket.php';

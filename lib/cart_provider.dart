@@ -50,6 +50,12 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void fremoveCounter() {
+    _counter = 0;
+    _setPrefsItems();
+    notifyListeners();
+  }
+
   int getCounter() {
     _getPrefsItems();
     return _counter;
@@ -94,6 +100,12 @@ class CartProvider with ChangeNotifier {
 
   void removeTotalPrice(double productPrice) {
     _totalPrice = _totalPrice - productPrice;
+    _setPrefsItems();
+    notifyListeners();
+  }
+
+  void fremoveTotalPrice() {
+    _totalPrice = 0;
     _setPrefsItems();
     notifyListeners();
   }

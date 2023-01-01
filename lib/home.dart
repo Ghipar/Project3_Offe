@@ -365,7 +365,11 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                print('hola');
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          menu(index: i, list: terdekat)),
+                                );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -687,7 +691,11 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                print('hola');
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          menu(index: i, list: terlaris)),
+                                );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,

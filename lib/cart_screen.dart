@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_3/api.dart';
 import 'package:project_3/cart_model.dart';
 import 'package:project_3/cart_provider.dart';
+import 'package:project_3/db_helper.dart';
 import 'package:project_3/menu.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-//  DBHelper? dbHelper = DBHelper();
+  DBHelper? dbHelper = DBHelper();
   List<String> number = List.generate(5, (int index) => '$index');
   late String _item;
   @override
@@ -184,11 +185,23 @@ class _CartScreenState extends State<CartScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [Icon(Icons.delete)],
-                                              )
+                                              SizedBox(
+                                                width: 100,
+                                              ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    dbHelper!.deleteCartItem(
+                                                        snapshot
+                                                            .data![index].id!);
+
+                                                    cart.removeCounter();
+                                                    cart.removeTotalPrice(
+                                                        double.parse(snapshot
+                                                            .data![index]
+                                                            .productPrice
+                                                            .toString()));
+                                                  },
+                                                  child: Icon(Icons.delete))
                                             ],
                                           ),
 
@@ -224,12 +237,17 @@ class _CartScreenState extends State<CartScreen> {
                 return Text('data');
               }),
           Consumer<CartProvider>(builder: (context, value, child) {
-            return Column(
-              children: [
-                ReusableWidget(
-                    title: 'Sub Total',
-                    value: r'Rp' + value.getTotalPrice().toStringAsFixed(2))
-              ],
+            return Visibility(
+              visible: value.getTotalPrice().toStringAsFixed(2) == "0.00"
+                  ? false
+                  : true,
+              child: Column(
+                children: [
+                  ReusableWidget(
+                      title: 'Sub Total',
+                      value: r'Rp ' + value.getTotalPrice().toStringAsFixed(2))
+                ],
+              ),
             );
           })
           // Row(
