@@ -16,3 +16,4 @@ String loca = 'http://192.168.1.4/cobak/loka.php';
 String mknapi = 'http://192.168.1.4/cobak/makanan.php';
 String mnmapi = 'http://192.168.1.4/cobak/minuman.php';
 String pktapi = 'http://192.168.1.4/cobak/paket.php';
+String pktallapi = 'http://192.168.1.4/cobak/hematall.php';

@@ -12,6 +12,7 @@ import 'package:project_3/cart_model.dart';
 import 'package:project_3/cart_provider.dart';
 import 'package:project_3/cart_screen.dart';
 import 'package:project_3/db_helper.dart';
+import 'package:project_3/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -622,62 +623,53 @@ class _menuState extends State<menu> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        child: ListView(children: [
-          Expanded(
-              child: FutureBuilder<List>(
-                  future: getDatamkn(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      Text("error bre");
-                    }
-                    return snapshot.hasData
-                        ? Makanan(
-                            list: snapshot.data ?? [],
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                  })),
-          Expanded(
-              child: FutureBuilder<List>(
-                  future: getDatamnm(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      Text("error bre");
-                    }
-                    return snapshot.hasData
-                        ? Minuman(
-                            list: snapshot.data ?? [],
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                  })),
-          Expanded(
-              child: FutureBuilder<List>(
-                  future: getDatapkt(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      Text("error bre");
-                    }
-                    return snapshot.hasData
-                        ? Paket(
-                            list: snapshot.data ?? [],
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                  })),
-        ]),
-        onRefresh: () {
-          // getDataBanner();
-          // getDataterlaris();
-          // getDataterfavorit();
-          // getDataTerdekat();
-          return Navigator.pushReplacementNamed(context, '/laris');
-        },
-      ),
+      body: ListView(children: [
+        Expanded(
+            child: FutureBuilder<List>(
+                future: getDatamkn(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    Text("error bre");
+                  }
+                  return snapshot.hasData
+                      ? Makanan(
+                          list: snapshot.data ?? [],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })),
+        Expanded(
+            child: FutureBuilder<List>(
+                future: getDatamnm(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    Text("error bre");
+                  }
+                  return snapshot.hasData
+                      ? Minuman(
+                          list: snapshot.data ?? [],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })),
+        Expanded(
+            child: FutureBuilder<List>(
+                future: getDatapkt(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    Text("error bre");
+                  }
+                  return snapshot.hasData
+                      ? Paket(
+                          list: snapshot.data ?? [],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })),
+      ]),
     );
   }
 }

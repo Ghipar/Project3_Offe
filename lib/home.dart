@@ -10,6 +10,7 @@ import 'package:project_3/cart_provider.dart';
 import 'package:project_3/db_helper.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/menu.dart';
+import 'package:project_3/menu_hemat.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
 import 'package:like_button/like_button.dart';
@@ -309,7 +310,11 @@ class ItemList extends StatelessWidget {
               Column(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => hemat(),
+                        ),
+                      );},
                     child: Container(
                         margin: EdgeInsets.only(left: 20.0),
                         width: 59.0,

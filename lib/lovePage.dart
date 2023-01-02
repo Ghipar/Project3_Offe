@@ -145,24 +145,6 @@ class ItemList extends StatelessWidget {
                                       },
                                       countPostion: CountPostion.right,
                                     )),
-                                // Row(
-
-                                //   children: [
-                                //     Container(
-                                //       padding: EdgeInsets.only(bottom: 5.0),
-                                //       child: Icon(
-                                //         Icons.star,
-                                //         color: Colors.amber,
-                                //       ),
-                                //     ),
-                                //     Container(
-                                //       padding: EdgeInsets.only(
-                                //         right: 10.0,
-                                //       ),
-                                //       child: Text("4.5"),
-                                //     ),
-                                //   ],
-                                // )
                               ],
                             ),
                           ),
@@ -172,12 +154,23 @@ class ItemList extends StatelessWidget {
               );
             })
         : Center(
-            child: Container(
-            child: Text(
-              'Belum ada caffe yang disukai',
-              style: TextStyle(fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
+            child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              Image(
+                image: AssetImage('assets/images/resul.png'),
+                height: 300,
+              ),
+              Container(
+                child: Text(
+                  'Belum ada caffe yang disukai',
+                  style: TextStyle(fontSize: 30),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ));
   }
 }

@@ -7,16 +7,21 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:project_3/api.dart';
+import 'package:project_3/cart_model.dart';
+import 'package:project_3/cart_provider.dart';
+import 'package:project_3/cart_screen.dart';
 import 'package:project_3/home.dart';
 
 import 'package:like_button/like_button.dart';
+import 'package:project_3/menu.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class searchPage extends SearchDelegate {
   List<String> searchResults = [
     'Caffe wuft',
-    'hok',
-    'kage',
+    'setarbucek',
+    'sus',
     'siuu',
   ];
   Future<List> getDatasear() async {
@@ -108,149 +113,140 @@ class ItemList extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
+                  GestureDetector(
+                    onTap: () => print('sda'),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         elevation: 5,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 254, 254, 254),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 6),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 70.0,
-                                      height: 70.0,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          '$imgProf${list[i]['gambar_toko']}',
-                                          width: 70,
-                                          height: 70,
-                                          fit: BoxFit.cover,
-                                        ),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 254, 254, 254),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 6),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 70.0,
+                                    height: 70.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        '$imgProf${list[i]['gambar_toko']}',
+                                        width: 70,
+                                        height: 70,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${list[i]['Nama_toko']}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '0,6 km',
+                                  ),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${list[i]['Nama_toko']}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '0,6 km',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                          Text(
+                                            ' | ',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                          Container(
+                                            width: 40,
+                                            child: Text(
+                                              '${list[i]['Produk_Terjual']}',
                                               style: TextStyle(
                                                   color: Colors.black54),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            Text(
-                                              ' | ',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                            Container(
-                                              width: 40,
-                                              child: Text(
-                                                '${list[i]['Produk_Terjual']}',
-                                                style: TextStyle(
-                                                    color: Colors.black54),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Terjual',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                    padding:
-                                        EdgeInsets.only(left: 15, bottom: 3.0),
-                                    child: LikeButton(
-                                      isLiked: list[i]['like_status'] == ''
-                                          ? false
-                                          : true,
-                                      size: 25,
-                                      likeCount:
-                                          int.parse(list[i]['like_count']),
-                                      onTap: (isLiked) async {
-                                        final SharedPreferences
-                                            sharedPreferences =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        sharedPreferences.setString(
-                                            'kd', list[i]['Kode_Toko']);
-                                        final SharedPreferences
-                                            sharedPreferences1 =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        var kode =
-                                            sharedPreferences1.getString('kd');
-                                        kodto = kode;
-                                        print(kodto);
-                                        isLiked == false
-                                            ? getDataceklike() //nambah
-                                            : getDataceklike(); //kurang
+                                          ),
+                                          Text(
+                                            'Terjual',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Container(
+                                  padding:
+                                      EdgeInsets.only(left: 15, bottom: 3.0),
+                                  child: LikeButton(
+                                    isLiked: list[i]['like_status'] == ''
+                                        ? false
+                                        : true,
+                                    size: 25,
+                                    likeCount: int.parse(list[i]['like_count']),
+                                    onTap: (isLiked) async {
+                                      final SharedPreferences
+                                          sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      sharedPreferences.setString(
+                                          'kd', list[i]['Kode_Toko']);
+                                      final SharedPreferences
+                                          sharedPreferences1 =
+                                          await SharedPreferences.getInstance();
+                                      var kode =
+                                          sharedPreferences1.getString('kd');
+                                      kodto = kode;
+                                      print(kodto);
+                                      isLiked == false
+                                          ? getDataceklike() //nambah
+                                          : getDataceklike(); //kurang
 
-                                        return !isLiked;
-                                      },
-                                      countPostion: CountPostion.right,
-                                    )),
-                                // Row(
-
-                                //   children: [
-                                //     Container(
-                                //       padding: EdgeInsets.only(bottom: 5.0),
-                                //       child: Icon(
-                                //         Icons.star,
-                                //         color: Colors.amber,
-                                //       ),
-                                //     ),
-                                //     Container(
-                                //       padding: EdgeInsets.only(
-                                //         right: 10.0,
-                                //       ),
-                                //       child: Text("4.5"),
-                                //     ),
-                                //   ],
-                                // )
-                              ],
-                            ),
+                                      return !isLiked;
+                                    },
+                                    countPostion: CountPostion.right,
+                                  )),
+                            ],
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               );
             },
           )
         : Center(
-            child: Text(
-            'Caffe tidak ditemukan',
-            style: TextStyle(fontSize: 30),
+            child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              Image(
+                image: AssetImage('assets/images/resul.png'),
+                height: 300,
+              ),
+              Text(
+                'Caffe tidak ditemukan',
+                style: TextStyle(fontSize: 30),
+              )
+            ],
           ));
   }
 }
