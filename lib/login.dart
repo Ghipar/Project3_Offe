@@ -318,6 +318,8 @@ class _loginState extends State<login> {
                       getDataBanner();
                       getDataterlaris();
                       getDataterfavorit();
+                      getDataTerdekat();
+                      getDatalv();
                     },
                   )),
               SizedBox(

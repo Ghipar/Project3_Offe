@@ -54,6 +54,7 @@ dependencies:
   badges: ^2.0.2
   provider: ^6.0.3
   sqflite: ^2.2.2
+  intl: ^0.16.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

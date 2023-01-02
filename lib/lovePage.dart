@@ -9,6 +9,7 @@ import 'package:project_3/api.dart';
 import 'package:project_3/home.dart';
 
 import 'package:like_button/like_button.dart';
+import 'package:project_3/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class lovePages extends StatefulWidget {
@@ -39,114 +40,143 @@ class ItemList extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         elevation: 5,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 254, 254, 254),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 6),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 70.0,
-                                      height: 70.0,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          '$imgProf${list[i]['gambar_toko']}',
-                                          width: 70,
-                                          height: 70,
-                                          fit: BoxFit.cover,
-                                        ),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 254, 254, 254),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 6),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 70.0,
+                                    height: 70.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        '$imgProf${list[i]['gambar_toko']}',
+                                        width: 70,
+                                        height: 70,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${list[i]['Nama_toko']}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '0,6 km',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                            Text(
-                                              ' | ',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                            Container(
+                                  ),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${list[i]['Nama_toko']}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
                                               width: 40,
                                               child: Text(
-                                                '${list[i]['Produk_Terjual']}',
+                                                '${lope[i]['distance']} Km',
                                                 style: TextStyle(
                                                     color: Colors.black54),
-                                                maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Terjual',
+                                                maxLines: 1,
+                                              )),
+                                          Text(
+                                            ' | ',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                          Container(
+                                            width: 40,
+                                            child: Text(
+                                              '${list[i]['Produk_Terjual']}',
                                               style: TextStyle(
                                                   color: Colors.black54),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                    padding:
-                                        EdgeInsets.only(left: 15, bottom: 3.0),
-                                    child: LikeButton(
-                                      isLiked: list[i]['like_status'] == ''
-                                          ? false
-                                          : true,
-                                      size: 25,
-                                      likeCount:
-                                          int.parse(list[i]['like_count']),
-                                      onTap: (isLiked) async {
-                                        final SharedPreferences
-                                            sharedPreferences =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        sharedPreferences.setString(
-                                            'kd', list[i]['Kode_Toko']);
-                                        final SharedPreferences
-                                            sharedPreferences1 =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        var kode =
-                                            sharedPreferences1.getString('kd');
-                                        kodto = kode;
-                                        print(kodto);
-                                        isLiked == false
-                                            ? getDataceklike() //nambah
-                                            : getDataceklike(); //kurang
+                                          ),
+                                          Text(
+                                            'Terjual',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Container(
+                                  padding:
+                                      EdgeInsets.only(left: 15, bottom: 3.0),
+                                  child: LikeButton(
+                                    isLiked: list[i]['like_status'] == ''
+                                        ? false
+                                        : true,
+                                    size: 25,
+                                    likeCount: int.parse(list[i]['like_count']),
+                                    onTap: (isLiked) async {
+                                      final SharedPreferences
+                                          sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      sharedPreferences.setString(
+                                          'kd', list[i]['Kode_Toko']);
+                                      final SharedPreferences
+                                          sharedPreferences1 =
+                                          await SharedPreferences.getInstance();
+                                      var kode =
+                                          sharedPreferences1.getString('kd');
+                                      kodto = kode;
+                                      print(kodto);
+                                      isLiked == false
+                                          ? getDataceklike() //nambah
+                                          : getDataceklike(); //kurang
 
-                                        return !isLiked;
-                                      },
-                                      countPostion: CountPostion.right,
-                                    )),
-                              ],
-                            ),
+                                      return !isLiked;
+                                    },
+                                    countPostion: CountPostion.right,
+                                  )),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 32, 204, 121),
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    menu(index: i, list: list)),
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.skip_next,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         )),
                   )
@@ -173,11 +203,6 @@ class ItemList extends StatelessWidget {
             ],
           ));
   }
-}
-
-Future<List> getData() async {
-  final response = await http.get(Uri.parse(lvpages));
-  return jsonDecode(response.body);
 }
 
 class _lovePagesState extends State<lovePages> {
@@ -218,7 +243,7 @@ class _lovePagesState extends State<lovePages> {
       ),
       body: RefreshIndicator(
         child: FutureBuilder<List>(
-            future: getData(),
+            future: getDatalv(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Text("error bre");
@@ -241,21 +266,4 @@ class _lovePagesState extends State<lovePages> {
       ),
     );
   }
-}
-
-void showSnackBarFav(BuildContext context) {
-  final snackBar = SnackBar(
-    content: Container(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: const Text(
-        'Kepencet kok :)',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-    ),
-    backgroundColor: Colors.teal,
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
-    elevation: 30,
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

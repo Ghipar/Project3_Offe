@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_3/api.dart';
 import 'package:project_3/cart_model.dart';
 import 'package:project_3/cart_provider.dart';
@@ -19,6 +22,9 @@ class CartScreen extends StatefulWidget {
 
 DBHelper? dbHelper = DBHelper();
 CartProvider crut = CartProvider();
+var now = new DateTime.now();
+var formatter = new DateFormat('yyyy-MM-dd');
+String formattedDate = formatter.format(now);
 
 class _CartScreenState extends State<CartScreen> {
   List<String> number = List.generate(5, (int index) => '$index');
@@ -430,6 +436,38 @@ class _CartScreenState extends State<CartScreen> {
                             title: 'Sub Total',
                             value: r'Rp ' +
                                 value.getTotalPrice().toStringAsFixed(2)),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, '/vou');
+                          },
+                          child: Container(
+                            width: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.pink,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.credit_card,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Add vouher',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                         ReusableWidget(
                             title: 'Diskon 5%', value: r'Rp ' + '20'),
                         ReusableWidget(
@@ -441,39 +479,10 @@ class _CartScreenState extends State<CartScreen> {
                   );
                 },
               ))
-
-          // Row(
-          //   children: [
-          //     Container(
-          //       padding: EdgeInsets.only(left: 20, right: 20),
-          //       child: Text("Metode pembayaran"),
-          //     ),
-          //     DropdownButton(
-          //       items: [
-          //         DropdownMenuItem(
-          //           child: Text('Tunai'),
-          //           value: "Tunai",
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text('Non Tunai'),
-          //           value: "Non Tunai",
-          //         ),
-          //       ],
-          //       onChanged: (value) {
-          //         Text('data');
-          //       },
-          //       focusColor: Colors.grey,
-          //     )
-          //   ],
-          // )
         ],
       ),
       bottomNavigationBar: InkWell(
-        onTap: crut.getCounter() == 0
-            ? null
-            : () {
-                print('hola');
-              },
+        onTap: crut.getCounter() == 0 ? null : () {},
         child: Container(
           color: crut.getCounter() == 0 ? Colors.grey : Colors.yellow.shade600,
           alignment: Alignment.center,

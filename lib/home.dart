@@ -32,7 +32,7 @@ List<dynamic> terlaris = [];
 List<dynamic> terfavorit = [];
 List<dynamic> cekilike = [];
 List<dynamic> terdekat = [];
-
+List<dynamic> lope = [];
 var kodto;
 Future<List> getDataTerdekat() async {
   final response = await http.get(Uri.parse(terdekatApi));
@@ -69,6 +69,13 @@ Future<List> getDataceklike() async {
   });
   var data = jsonDecode(response.body);
   return await _getTheDistance(data);
+}
+
+Future<List> getDatalv() async {
+  final response = await http.get(Uri.parse(lvpages));
+  final get = jsonDecode(response.body);
+  lope = await _getTheDistance(get);
+  return lope;
 }
 
 Future _getTheDistance(List<dynamic> data, {bool isSorted = false}) async {
@@ -310,11 +317,13 @@ class ItemList extends StatelessWidget {
               Column(
                 children: [
                   GestureDetector(
-                    onTap: () {Navigator.of(context).push(
+                    onTap: () {
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => hemat(),
                         ),
-                      );},
+                      );
+                    },
                     child: Container(
                         margin: EdgeInsets.only(left: 20.0),
                         width: 59.0,
@@ -854,7 +863,7 @@ class _homeState extends State<home> {
           getDataterlaris();
           getDataterfavorit();
           getDataTerdekat();
-          // getDataceklike();
+          getDatalv();
           return Navigator.pushReplacementNamed(context, '/dashboard');
         },
       ),

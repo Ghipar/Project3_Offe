@@ -70,6 +70,7 @@ class _splashState extends State<splash> {
       getDataterlaris();
       getDataterfavorit();
       getDataTerdekat();
+      getDatalv();
       Timer(Duration(seconds: 2), () {
         Navigator.pushReplacementNamed(
             context, finaluser == null ? '/screen' : '/dashboard');
