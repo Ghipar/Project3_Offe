@@ -33,7 +33,18 @@ List<dynamic> terfavorit = [];
 List<dynamic> cekilike = [];
 List<dynamic> terdekat = [];
 List<dynamic> lope = [];
+List<dynamic> cari = [];
 var kodto;
+Future<List> getDatasear(String obj) async {
+  final response = await http.post(Uri.parse(sear), body: {
+    "name": obj,
+  });
+
+  final get = jsonDecode(response.body);
+  cari = await _getTheDistance(get);
+  return cari;
+}
+
 Future<List> getDataTerdekat() async {
   final response = await http.get(Uri.parse(terdekatApi));
   final get = jsonDecode(response.body);

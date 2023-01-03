@@ -24,13 +24,6 @@ class searchPage extends SearchDelegate {
     'sus',
     'siuu',
   ];
-  Future<List> getDatasear() async {
-    final response = await http.post(Uri.parse(sear), body: {
-      "name": query,
-    });
-    var data = jsonDecode(response.body);
-    return data;
-  }
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
@@ -51,7 +44,7 @@ class searchPage extends SearchDelegate {
   Widget buildResults(BuildContext context) => Center(
         child: RefreshIndicator(
           child: FutureBuilder<List>(
-              future: getDatasear(),
+              future: getDatasear(query),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   Text("error bre");
@@ -114,7 +107,11 @@ class ItemList extends StatelessWidget {
                     height: 10,
                   ),
                   GestureDetector(
-                    onTap: () => print('sda'),
+                    onTap: () => Navigator.of(context).push(
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              menu(index: i, list: list)),
+                    ),
                     child: Container(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: Card(
@@ -161,11 +158,15 @@ class ItemList extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            '0,6 km',
-                                            style: TextStyle(
-                                                color: Colors.black54),
-                                          ),
+                                          Container(
+                                              width: 40,
+                                              child: Text(
+                                                '${cari[i]['distance']} Km',
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              )),
                                           Text(
                                             ' | ',
                                             style: TextStyle(

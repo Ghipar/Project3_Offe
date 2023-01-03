@@ -9,16 +9,17 @@ class CartProvider with ChangeNotifier {
   int _quantity = 1;
   int get counter => _counter;
   int get quantity => _quantity;
-
+  late Future<List<Cart>> _cart;
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
+  List<dynamic> keran = [];
 
-  late Future<List<Cart>> _cart;
   Future<List<Cart>> get cart => _cart;
   // List<Cart> cart = [];
 
   Future<List<Cart>> getData() async {
     _cart = db.getCartList();
+    // keran = db.getCartList() as List;
     return _cart;
   }
 

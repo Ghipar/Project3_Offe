@@ -8,6 +8,7 @@ import 'package:project_3/api.dart';
 import 'package:project_3/cart_model.dart';
 import 'package:project_3/cart_provider.dart';
 import 'package:project_3/db_helper.dart';
+import 'package:project_3/home.dart';
 import 'package:project_3/menu.dart';
 import 'package:provider/provider.dart';
 
@@ -107,7 +108,13 @@ class _CartScreenState extends State<CartScreen> {
                                             BorderRadius.circular(10)),
                                     elevation: 5,
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        for (var i = 0;
+                                            i < snapshot.data!.length;
+                                            i++) {
+                                          print(snapshot.data![i].id);
+                                        }
+                                      },
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -412,7 +419,13 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                       ),
                                     )),
-                              )
+                              ),
+                              // ElevatedButton(
+                              //     onPressed: () {
+                              //       print(snapshot.data![index].productName
+                              //           .toString());
+                              //     },
+                              //     child: Text('Klik'))
                             ],
                           );
                         },
@@ -482,7 +495,19 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       bottomNavigationBar: InkWell(
-        onTap: crut.getCounter() == 0 ? null : () {},
+        onTap: crut.getCounter() == 0
+            ? null
+            : () {
+                dbHelper!.getCartList().then((result) {
+                  print('In Builder');
+                });
+                // FutureBuilder(
+                //     future: cart.getData(),
+                //     builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
+                //       print('object');
+                //       return Text('data');
+                //     });
+              },
         child: Container(
           color: crut.getCounter() == 0 ? Colors.grey : Colors.yellow.shade600,
           alignment: Alignment.center,

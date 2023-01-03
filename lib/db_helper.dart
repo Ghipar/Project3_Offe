@@ -1,4 +1,5 @@
 import 'package:project_3/cart_model.dart';
+import 'package:project_3/menu.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -43,6 +44,13 @@ class DBHelper {
         await dbClient!.query('keran');
     return queryResult.map((result) => Cart.fromMap(result)).toList();
   }
+
+  // Future<List<Map<String, dynamic>>> getproduct() async {
+  //   var dbClient = await database;
+  //   final data = await dbClient!.query('keran', columns: ['productName']);
+  //   List<Cart> result = data.map((e) => cart.from)
+
+  // }
 
   Future<int> updateQuantity(Cart cart) async {
     var dbClient = await database;
