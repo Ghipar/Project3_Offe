@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-
 import 'package:project_3/api.dart';
 import 'package:project_3/cart_provider.dart';
 import 'package:project_3/db_helper.dart';
@@ -35,6 +34,7 @@ List<dynamic> cekilike = [];
 List<dynamic> terdekat = [];
 List<dynamic> lope = [];
 List<dynamic> cari = [];
+List<dynamic> pro = [];
 var kodto;
 Future<List> getDatasear(String obj) async {
   final response = await http.post(Uri.parse(sear), body: {
@@ -88,6 +88,14 @@ Future<List> getDatalv() async {
   final get = jsonDecode(response.body);
   lope = await _getTheDistance(get);
   return lope;
+}
+
+Future<List> getDataproter(String kd) async {
+  final response = await http.post(Uri.parse(terjul), body: {
+    'tko': kd,
+  });
+
+  return jsonDecode(response.body);
 }
 
 Future _getTheDistance(List<dynamic> data, {bool isSorted = false}) async {
@@ -831,6 +839,7 @@ class _homeState extends State<home> {
           getDataterlaris();
           getDataterfavorit();
           getDataTerdekat();
+
           getDatalv();
           return Navigator.pushReplacementNamed(context, '/dashboard');
         },

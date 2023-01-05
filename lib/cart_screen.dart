@@ -508,6 +508,8 @@ class _CartScreenState extends State<CartScreen> {
                         }
                         showSnackBaryar(context);
                       });
+                getDataproter(cart.getktok());
+                print(cart.getktok());
                 pengam == null
                     ? print('pengam kosong')
                     : dbHelper!.clearCartItem();

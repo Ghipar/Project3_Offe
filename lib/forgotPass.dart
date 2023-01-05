@@ -126,8 +126,6 @@ class _forgotPassState extends State<forgotPass> {
                               Icons.check_box,
                               color: Colors.green,
                             ),
-
-                      //labelText: 'Username',
                       hintText: 'Email',
                       hintStyle: TextStyle(fontSize: 16),
                       border: OutlineInputBorder(

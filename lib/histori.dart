@@ -46,7 +46,7 @@ class _historiState extends State<histori> {
           // getDataterfavorit();
           // getDataTerdekat();
           // getDataceklike();
-          return Navigator.pushReplacementNamed(context, '/dekat');
+          return Navigator.pushReplacementNamed(context, '/vou');
         },
       ),
     );

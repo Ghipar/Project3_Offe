@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,13 @@ class pickup extends StatefulWidget {
 Future<List> getDatariwa() async {
   final response = await http.post(Uri.parse(pikup), body: {
     "user": finaluser,
+  });
+  return jsonDecode(response.body);
+}
+
+Future<List> getbatal(String kd) async {
+  final response = await http.post(Uri.parse(tal), body: {
+    "trans": kd,
   });
   return jsonDecode(response.body);
 }
@@ -46,7 +54,7 @@ class _pickupState extends State<pickup> {
           // getDataterfavorit();
           // getDataTerdekat();
           // getDataceklike();
-          return Navigator.pushReplacementNamed(context, '/dekat');
+          return Navigator.pushReplacementNamed(context, '/pu');
         },
       ),
     );
@@ -104,48 +112,84 @@ class ItemList extends StatelessWidget {
                               SizedBox(
                                 width: 24,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${list[i]['Nama_toko']}",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          child: Text(
-                                        '${list[i]['Kode_Transaksi']}',
-                                        style: TextStyle(color: Colors.black54),
-                                      )),
-                                    ],
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      '${list[i]['Tanggal_transaksi']}',
-                                      style: TextStyle(color: Colors.black54),
+                              SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 5.0,
                                     ),
-                                  ),
-                                  Container(
-                                    child: list[i]['statust_trans'] == '0'
-                                        ? Text(
-                                            'Menunggu Konfirmasi',
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        : Text(
-                                            'Sedang Diproses',
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                  ),
-                                ],
-                              )
+                                    RichText(
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      text: TextSpan(
+                                        text: '${list[i]['Nama_toko']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    RichText(
+                                      maxLines: 1,
+                                      text: TextSpan(
+                                        text: '${list[i]['Kode_Transaksi']}',
+                                        style: TextStyle(color: Colors.black87),
+                                      ),
+                                    ),
+                                    RichText(
+                                      maxLines: 1,
+                                      text: TextSpan(
+                                        text: '${list[i]['Tanggal_transaksi']}',
+                                        style: TextStyle(color: Colors.black87),
+                                      ),
+                                    ),
+                                    RichText(
+                                        text: list[i]['statust_trans'] == '0'
+                                            ? TextSpan(
+                                                text: 'Menunggu Konfirmasi',
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            : TextSpan(
+                                                text: 'Sedang Diproses',
+                                                style: TextStyle(
+                                                    color: Colors.green,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          GestureDetector(
+                            onTap: list[i]['statust_trans'] == '0'
+                                ? () {
+                                    showAlertDialogtal(
+                                        context, list[i]['Kode_Transaksi']);
+                                  }
+                                : null,
+                            child: Container(
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    color: list[i]['statust_trans'] == '0'
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                          )
                         ],
                       ),
                     ),
@@ -156,4 +200,33 @@ class ItemList extends StatelessWidget {
       },
     );
   }
+}
+
+showAlertDialogtal(BuildContext context, String tran) {
+  // set up the buttons
+
+  Widget continueButton = TextButton(
+    child: Text("yakin"),
+    onPressed: () {
+      getbatal(tran);
+      Navigator.pushReplacementNamed(context, '/pu');
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(
+      "Peringatan!!",
+    ),
+    content: Text("Anda yakin ingin membatalkan?"),
+    actions: [
+      continueButton,
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
