@@ -333,24 +333,14 @@ class ItemList extends StatelessWidget {
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: Card(
-                child: ListTile(
-                  leading: Icon(Icons.credit_card),
-                  title: Text('Voucherku'),
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/vou');
-                  },
-                ),
-              ),
-            ),
-            Container(
               padding: EdgeInsets.only(top: 5, left: 20, right: 20),
               child: Card(
                 child: ListTile(
                   leading: Icon(Icons.history),
                   title: Text('Riwayat pesanan'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/vou');
+                  },
                 ),
               ),
             ),

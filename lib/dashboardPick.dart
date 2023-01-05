@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:project_3/dashboard.dart';
-import 'package:project_3/dashboardVou.dart';
 import 'package:project_3/histori.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
@@ -11,18 +9,18 @@ import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/search.dart';
 
-class dashboardprof extends StatefulWidget {
-  const dashboardprof({Key? key}) : super(key: key);
+class dashboardpick extends StatefulWidget {
+  const dashboardpick({Key? key}) : super(key: key);
 
   @override
-  _dashboardprofState createState() => _dashboardprofState();
+  _dashboardpickState createState() => _dashboardpickState();
 }
 
 TextEditingController searchController = TextEditingController();
 
-class _dashboardprofState extends State<dashboardprof> {
+class _dashboardpickState extends State<dashboardpick> {
   var obscuretext1 = true;
-  int _selectedIndex = 3;
+  int _selectedIndex = 1;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[

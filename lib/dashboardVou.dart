@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:project_3/histori.dart';
 import 'package:project_3/home.dart';
 import 'package:project_3/login.dart';
+import 'package:project_3/pickup.dart';
 import 'package:project_3/profile.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/search.dart';
@@ -23,14 +25,8 @@ class _dashboardvouState extends State<dashboardvou> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     home(),
-    Text(
-      'Pickup',
-      style: optionStyle,
-    ),
-    Text(
-      'Voucher',
-      style: optionStyle,
-    ),
+    pickup(),
+    histori(),
     Profile(),
   ];
 
@@ -117,8 +113,8 @@ class _dashboardvouState extends State<dashboardvou> {
             label: 'Pickup',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            label: 'Voucher',
+            icon: Icon(Icons.history),
+            label: 'Riwayat',
           ),
           BottomNavigationBarItem(
             icon: Icon(

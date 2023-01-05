@@ -160,12 +160,16 @@ class ItemList extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          Navigator.of(context).push(
-                                            new MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    menu(index: i, list: list)),
-                                          );
+                                          list[i]['statust_toko'] == '0'
+                                              ? showSnackBartok(context)
+                                              : Navigator.of(context).push(
+                                                  new MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          menu(
+                                                              index: i,
+                                                              list: list)),
+                                                );
                                         },
                                         child: Icon(
                                           Icons.skip_next,

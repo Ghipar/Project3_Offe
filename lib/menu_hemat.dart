@@ -40,27 +40,31 @@ class Paket extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     child: InkWell(
                       onTap: () {
-                        dbHelper!
-                            .insert(
-                          Cart(
-                              id: list[i]['Kode_Menu'],
-                              productId: list[i]['Kode_Menu'],
-                              productName: list[i]['Nama_Menu'].toString(),
-                              initialPrice: int.parse(list[i]['Harga']),
-                              productPrice: int.parse(list[i]['Harga']),
-                              quantity: 1,
-                              unitTag: list[i]['katagori_menu'],
-                              image: list[i]['gambar'].toString()),
-                        )
-                            .then((value) {
-                          print('Product add to cart');
-                          cart.addTotalPrice(
-                            double.parse(list[i]['Harga'].toString()),
-                          );
-                          cart.addCounter();
-                        }).onError((error, stackTrace) {
-                          print(error.toString());
-                        });
+                        list[i]['statust_menu'] == '0'
+                            ? showSnackBarmen(context)
+                            : dbHelper!
+                                .insert(
+                                Cart(
+                                    id: list[i]['Kode_Menu'],
+                                    productId: list[i]['Kode_Menu'],
+                                    productName:
+                                        list[i]['Nama_Menu'].toString(),
+                                    initialPrice: int.parse(list[i]['Harga']),
+                                    productPrice: int.parse(list[i]['Harga']),
+                                    quantity: 1,
+                                    unitTag: list[i]['katagori_menu'],
+                                    image: list[i]['gambar'].toString()),
+                              )
+                                .then((value) {
+                                cart.setktok(list[i]['Kode_Toko']);
+                                print('Product add to cart');
+                                cart.addTotalPrice(
+                                  double.parse(list[i]['Harga'].toString()),
+                                );
+                                cart.addCounter();
+                              }).onError((error, stackTrace) {
+                                print(error.toString());
+                              });
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -110,16 +114,6 @@ class Paket extends StatelessWidget {
                                     textAlign: TextAlign.justify,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                    child: Text(
-                                  'Caffe : ${list[i]['Nama_toko']}',
-                                  // style: TextStyle(
-                                  //     // color: Colors.redAccent,
-                                  //     fontWeight: FontWeight.bold),
-                                )),
                                 Container(
                                     padding: EdgeInsets.only(left: 250),
                                     child: TextButton(
@@ -166,20 +160,24 @@ class Paket extends StatelessWidget {
 }
 
 class hemat extends StatefulWidget {
-  const hemat({super.key});
+  List list;
+  int index;
+  hemat({required this.index, required this.list});
 
   @override
   State<hemat> createState() => _hematState();
 }
 
-Future<List> getDatahmt() async {
-  final response = await http.post(Uri.parse(pktallapi));
-  var data = jsonDecode(response.body);
-
-  return data;
-}
-
 class _hematState extends State<hemat> {
+  Future<List> getDathm() async {
+    final response = await http.post(Uri.parse(pktallapi), body: {
+      "store_id": widget.list[widget.index]['Kode_Toko'],
+    });
+    var data = jsonDecode(response.body);
+    print(data);
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,7 +250,7 @@ class _hematState extends State<hemat> {
       ),
       body: RefreshIndicator(
         child: FutureBuilder<List>(
-            future: getDatahmt(),
+            future: getDathm(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Text("error bre");

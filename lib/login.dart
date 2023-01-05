@@ -60,6 +60,7 @@ void showSnackBarFav1(BuildContext context) {
 
 String location = '___';
 String address = '___';
+String address2 = '___';
 
 class _loginState extends State<login> {
   Future<Position> _getGeoLocationPosition() async {
@@ -99,6 +100,8 @@ class _loginState extends State<login> {
     Placemark place = placemark[0];
     setState(() {
       address = '${place.subLocality}, ${place.subAdministrativeArea}';
+      address2 =
+          '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     });
   }
 

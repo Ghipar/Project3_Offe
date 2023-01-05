@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:badges/badges.dart';
@@ -9,8 +10,11 @@ import 'package:project_3/cart_model.dart';
 import 'package:project_3/cart_provider.dart';
 import 'package:project_3/db_helper.dart';
 import 'package:project_3/home.dart';
+import 'package:project_3/login.dart';
 import 'package:project_3/menu.dart';
 import 'package:provider/provider.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:http/http.dart' as http;
 
 class CartScreen extends StatefulWidget {
   const CartScreen({
@@ -21,11 +25,13 @@ class CartScreen extends StatefulWidget {
   State<CartScreen> createState() => _CartScreenState();
 }
 
+TextEditingController pgm = new TextEditingController();
 DBHelper? dbHelper = DBHelper();
-CartProvider crut = CartProvider();
+CartProvider? crut = CartProvider();
 var now = new DateTime.now();
 var formatter = new DateFormat('yyyy-MM-dd');
 String formattedDate = formatter.format(now);
+var pengam;
 
 class _CartScreenState extends State<CartScreen> {
   List<String> number = List.generate(5, (int index) => '$index');
@@ -86,7 +92,15 @@ class _CartScreenState extends State<CartScreen> {
                           Text(
                             'Belum melakukan pesanan',
                             style: TextStyle(fontSize: 20),
-                          )
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(context, '/pu');
+                              },
+                              child: Text('Lihat pick up'))
                         ],
                       ),
                     );
@@ -108,13 +122,7 @@ class _CartScreenState extends State<CartScreen> {
                                             BorderRadius.circular(10)),
                                     elevation: 5,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        for (var i = 0;
-                                            i < snapshot.data!.length;
-                                            i++) {
-                                          print(snapshot.data![i].id);
-                                        }
-                                      },
+                                      onTap: () {},
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -445,44 +453,30 @@ class _CartScreenState extends State<CartScreen> {
                         : true,
                     child: Column(
                       children: [
-                        ReusableWidget(
-                            title: 'Sub Total',
-                            value: r'Rp ' +
-                                value.getTotalPrice().toStringAsFixed(2)),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(context, '/vou');
-                          },
-                          child: Container(
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Colors.pink,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.credit_card,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Add vouher',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                        TextField(
+                          controller: pgm,
+                          decoration: InputDecoration(
+                              labelText: 'Alamat', hintText: 'Masukkan alamat'),
+                        ),
+                        DropdownSearch<String>(
+                          popupProps: PopupProps.menu(
+                            showSelectedItems: true,
+                          ),
+                          items: [
+                            "Dine inn",
+                            "Take away",
+                          ],
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              labelText: "Pengambilan",
+                              hintText: "Piih pengambilan anda",
                             ),
                           ),
+                          onChanged: (value) {
+                            //print(value);
+                            pengam = value;
+                          },
                         ),
-                        ReusableWidget(
-                            title: 'Diskon 5%', value: r'Rp ' + '20'),
                         ReusableWidget(
                             title: 'Grand Total',
                             value: r'Rp ' +
@@ -495,21 +489,37 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       bottomNavigationBar: InkWell(
-        onTap: crut.getCounter() == 0
+        onTap: cart.getCounter() == 0
             ? null
             : () {
-                dbHelper!.getCartList().then((result) {
-                  print('In Builder');
-                });
-                // FutureBuilder(
-                //     future: cart.getData(),
-                //     builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
-                //       print('object');
-                //       return Text('data');
-                //     });
+                pengam == null
+                    ? showSnackBarpengam(context)
+                    : cart.getData().then((result) {
+                        for (var i = 0; i < result.length; i++) {
+                          getDatatrans(
+                              finaluser,
+                              cart.getTotalPrice().toString(),
+                              pengam,
+                              cart.getktok(),
+                              result[i].id.toString(),
+                              result[i].quantity.toString(),
+                              result[i].productPrice.toString(),
+                              pgm.text == '' ? address2 : pgm.text);
+                        }
+                        showSnackBaryar(context);
+                      });
+                pengam == null
+                    ? print('pengam kosong')
+                    : dbHelper!.clearCartItem();
+                pengam == null
+                    ? print('pengam kosong')
+                    : crut!.fremoveCounter();
+                pengam == null
+                    ? print('pengam kosong')
+                    : crut!.fremoveTotalPrice();
               },
         child: Container(
-          color: crut.getCounter() == 0 ? Colors.grey : Colors.yellow.shade600,
+          color: cart.getCounter() == 0 ? Colors.grey : Colors.yellow.shade600,
           alignment: Alignment.center,
           height: 50.0,
           child: const Text(
@@ -524,6 +534,47 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
+
+Future<List> getDatatrans(String user, String total, String ambil, String kdtok,
+    String kdmn, String pes, String sub, String lamut) async {
+  final response = await http.post(Uri.parse(trans2), body: {
+    "Uname": user,
+    "total": total,
+    "ambil": ambil,
+    "kdtok": kdtok,
+    "kdmn": kdmn,
+    "pes": pes,
+    "subtl": sub,
+    "lamet": lamut
+  });
+  var data = jsonDecode(response.body);
+  // if (data == 'error') {
+  //   print('uyee');
+  // } else {
+  //   print('uyee2');
+  // }
+  return data;
+}
+
+// Future<List> getDatadettrans(String user, String total, String ambil,
+//     String kdtok, String kdmn, String pes, String sub, String lamut) async {
+//   final response = await http.post(Uri.parse(trans), body: {
+//     "Uname": user,
+//     "total": total,
+//     "ambil": ambil,
+//     "kdtok": kdtok,
+//     "kdmn": kdmn,
+//     "pes": pes,
+//     "subtl": sub,
+//     "lamet": lamut,
+//   });
+//   var data = jsonDecode(response.body);
+//   if (response.statusCode == 200) {
+//     return json.decode(response.body);
+//   } else {
+//     throw Exception('Failed to load');
+//   }
+// }
 
 class ReusableWidget extends StatelessWidget {
   final String title, value;
@@ -548,4 +599,38 @@ class ReusableWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+void showSnackBarpengam(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Harap isi pengambilan!!!',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void showSnackBaryar(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Pembayaran berhasil',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

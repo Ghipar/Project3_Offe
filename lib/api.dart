@@ -17,3 +17,7 @@ String mknapi = 'http://192.168.1.4/cobak/makanan.php';
 String mnmapi = 'http://192.168.1.4/cobak/minuman.php';
 String pktapi = 'http://192.168.1.4/cobak/paket.php';
 String pktallapi = 'http://192.168.1.4/cobak/hematall.php';
+String trans = 'http://192.168.1.4/cobak/transaksi.php';
+String trans2 = 'http://192.168.1.4/cobak/detail_trans.php';
+String riw = 'http://192.168.1.4/cobak/riwayat.php';
+String pikup = 'http://192.168.1.4/cobak/pickup.php';

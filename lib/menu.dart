@@ -25,6 +25,7 @@ class menu extends StatefulWidget {
   State<menu> createState() => _menuState();
 }
 
+var kodetokk;
 var g = 2;
 DBHelper? dbHelper = DBHelper();
 CartProvider? cart = CartProvider();
@@ -71,28 +72,35 @@ class Makanan extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20)),
                           child: InkWell(
                             onTap: () {
-                              dbHelper!
-                                  .insert(
-                                Cart(
-                                    id: list[i]['Kode_Menu'],
-                                    productId: list[i]['Kode_Menu'].toString(),
-                                    productName:
-                                        list[i]['Nama_Menu'].toString(),
-                                    initialPrice: int.parse(list[i]['Harga']),
-                                    productPrice: int.parse(list[i]['Harga']),
-                                    quantity: 1,
-                                    unitTag: list[i]['katagori_menu'],
-                                    image: list[i]['gambar'].toString()),
-                              )
-                                  .then((value) {
-                                print('Product add to cart');
-                                cart.addTotalPrice(
-                                  double.parse(list[i]['Harga'].toString()),
-                                );
-                                cart.addCounter();
-                              }).onError((error, stackTrace) {
-                                print(error.toString());
-                              });
+                              list[i]['statust_menu'] == '0'
+                                  ? showSnackBarmen(context)
+                                  : dbHelper!
+                                      .insert(
+                                      Cart(
+                                          id: list[i]['Kode_Menu'],
+                                          productId:
+                                              list[i]['Kode_Menu'].toString(),
+                                          productName:
+                                              list[i]['Nama_Menu'].toString(),
+                                          initialPrice:
+                                              int.parse(list[i]['Harga']),
+                                          productPrice:
+                                              int.parse(list[i]['Harga']),
+                                          quantity: 1,
+                                          unitTag: list[i]['katagori_menu'],
+                                          image: list[i]['gambar'].toString()),
+                                    )
+                                      .then((value) {
+                                      cart.setktok(list[i]['Kode_Toko']);
+                                      print('Product add to cart');
+                                      cart.addTotalPrice(
+                                        double.parse(
+                                            list[i]['Harga'].toString()),
+                                      );
+                                      cart.addCounter();
+                                    }).onError((error, stackTrace) {
+                                      print(error.toString());
+                                    });
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -241,28 +249,35 @@ class Minuman extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20)),
                           child: InkWell(
                             onTap: () {
-                              dbHelper!
-                                  .insert(
-                                Cart(
-                                    id: list[i]['Kode_Menu'],
-                                    productId: list[i]['Kode_Menu'].toString(),
-                                    productName:
-                                        list[i]['Nama_Menu'].toString(),
-                                    initialPrice: int.parse(list[i]['Harga']),
-                                    productPrice: int.parse(list[i]['Harga']),
-                                    quantity: 1,
-                                    unitTag: list[i]['katagori_menu'],
-                                    image: list[i]['gambar'].toString()),
-                              )
-                                  .then((value) {
-                                print('Product add to cart');
-                                cart.addTotalPrice(
-                                  double.parse(list[i]['Harga'].toString()),
-                                );
-                                cart.addCounter();
-                              }).onError((error, stackTrace) {
-                                print(error.toString());
-                              });
+                              list[i]['statust_menu'] == '0'
+                                  ? showSnackBarmen(context)
+                                  : dbHelper!
+                                      .insert(
+                                      Cart(
+                                          id: list[i]['Kode_Menu'],
+                                          productId:
+                                              list[i]['Kode_Menu'].toString(),
+                                          productName:
+                                              list[i]['Nama_Menu'].toString(),
+                                          initialPrice:
+                                              int.parse(list[i]['Harga']),
+                                          productPrice:
+                                              int.parse(list[i]['Harga']),
+                                          quantity: 1,
+                                          unitTag: list[i]['katagori_menu'],
+                                          image: list[i]['gambar'].toString()),
+                                    )
+                                      .then((value) {
+                                      cart.setktok(list[i]['Kode_Toko']);
+                                      print('Product add to cart');
+                                      cart.addTotalPrice(
+                                        double.parse(
+                                            list[i]['Harga'].toString()),
+                                      );
+                                      cart.addCounter();
+                                    }).onError((error, stackTrace) {
+                                      print(error.toString());
+                                    });
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -411,28 +426,34 @@ class Paket extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20)),
                           child: InkWell(
                             onTap: () {
-                              dbHelper!
-                                  .insert(
-                                Cart(
-                                    id: list[i]['Kode_Menu'],
-                                    productId: list[i]['Kode_Menu'],
-                                    productName:
-                                        list[i]['Nama_Menu'].toString(),
-                                    initialPrice: int.parse(list[i]['Harga']),
-                                    productPrice: int.parse(list[i]['Harga']),
-                                    quantity: 1,
-                                    unitTag: list[i]['katagori_menu'],
-                                    image: list[i]['gambar'].toString()),
-                              )
-                                  .then((value) {
-                                print('Product add to cart');
-                                cart.addTotalPrice(
-                                  double.parse(list[i]['Harga'].toString()),
-                                );
-                                cart.addCounter();
-                              }).onError((error, stackTrace) {
-                                print(error.toString());
-                              });
+                              list[i]['statust_menu'] == '0'
+                                  ? showSnackBarmen(context)
+                                  : dbHelper!
+                                      .insert(
+                                      Cart(
+                                          id: list[i]['Kode_Menu'],
+                                          productId: list[i]['Kode_Menu'],
+                                          productName:
+                                              list[i]['Nama_Menu'].toString(),
+                                          initialPrice:
+                                              int.parse(list[i]['Harga']),
+                                          productPrice:
+                                              int.parse(list[i]['Harga']),
+                                          quantity: 1,
+                                          unitTag: list[i]['katagori_menu'],
+                                          image: list[i]['gambar'].toString()),
+                                    )
+                                      .then((value) {
+                                      cart.setktok(list[i]['Kode_Toko']);
+                                      print('Product add to cart');
+                                      cart.addTotalPrice(
+                                        double.parse(
+                                            list[i]['Harga'].toString()),
+                                      );
+                                      cart.addCounter();
+                                    }).onError((error, stackTrace) {
+                                      print(error.toString());
+                                    });
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -672,4 +693,21 @@ class _menuState extends State<menu> {
       ]),
     );
   }
+}
+
+void showSnackBarmen(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: const Text(
+        'Stock sedang habis!!!',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
+    elevation: 30,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

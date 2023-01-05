@@ -10,6 +10,7 @@ import 'package:project_3/cart_provider.dart';
 import 'package:project_3/db_helper.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/menu.dart';
+import 'package:project_3/menu_hemat(toko).dart';
 import 'package:project_3/menu_hemat.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/terdekat.dart';
@@ -178,59 +179,7 @@ class ItemList extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          Center(
-            child: Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(20.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, '/vou');
-                },
-                child: Container(
-                  padding: EdgeInsets.all(0.0),
-                  height: 60.0, //MediaQuery.of(context).size.width * .08,
-                  width: 350.0, //MediaQuery.of(context).size.width * .3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      LayoutBuilder(builder: (context, constraints) {
-                        print(constraints);
-                        return Container(
-                          height: constraints.maxHeight,
-                          width: 90,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 78, 210, 162),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: const Icon(
-                            Icons.credit_card,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        );
-                      }),
-                      Expanded(
-                          child: Container(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: const Text(
-                          'Ada voucher gabut....',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
+
           Row(
             children: [
               Column(
@@ -331,7 +280,7 @@ class ItemList extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => hemat(),
+                          builder: (_) => tokoHemat(),
                         ),
                       );
                     },
@@ -390,11 +339,13 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          menu(index: i, list: terdekat)),
-                                );
+                                terdekat[i]['statust_toko'] == '0'
+                                    ? showSnackBartok(context)
+                                    : Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                menu(index: i, list: terdekat)),
+                                      );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -557,11 +508,15 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          menu(index: i, list: terfavorit)),
-                                );
+                                fav['statust_toko'] == '0'
+                                    ? showSnackBartok(context)
+                                    : Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                menu(
+                                                    index: i,
+                                                    list: terfavorit)),
+                                      );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -716,11 +671,13 @@ class ItemList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          menu(index: i, list: terlaris)),
-                                );
+                                terlaris[i]['statust_toko'] == '0'
+                                    ? showSnackBartok(context)
+                                    : Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                menu(index: i, list: terlaris)),
+                                      );
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -882,16 +839,16 @@ class _homeState extends State<home> {
   }
 }
 
-void showSnackBarFav(BuildContext context) {
+void showSnackBartok(BuildContext context) {
   final snackBar = SnackBar(
     content: Container(
       padding: const EdgeInsets.only(left: 10.0),
       child: const Text(
-        'Add to favorite :)',
+        'Caffe sedang tutup!!!',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
-    backgroundColor: Colors.teal,
+    backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.only(left: 50.0, right: 50.0, bottom: 20.0),
     elevation: 30,

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_3/cart_provider.dart';
 import 'package:project_3/dashboard.dart';
+import 'package:project_3/dashboardPick.dart';
 import 'package:project_3/dashboardProf.dart';
 import 'package:project_3/dashboardVou.dart';
 import 'package:project_3/forgotPass.dart';
 import 'package:project_3/login.dart';
 import 'package:project_3/lovePage.dart';
+import 'package:project_3/menu_hemat(toko).dart';
 import 'package:project_3/menu_hemat.dart';
+import 'package:project_3/pickup.dart';
 import 'package:project_3/regis.dart';
 import 'package:project_3/screen.dart';
 import 'package:project_3/splash.dart';
@@ -45,7 +48,8 @@ class MyApp extends StatelessWidget {
             '/fav': (BuildContext context) => new Terfavorit(),
             '/laris': (BuildContext context) => new Terlaris(),
             '/lvp': (BuildContext context) => new lovePages(),
-            '/hmt': (BuildContext context) => new hemat(),
+            '/hmt': (BuildContext context) => new tokoHemat(),
+            '/pu': (BuildContext context) => new dashboardpick(),
           },
         );
       }),

@@ -10,13 +10,14 @@ import 'package:project_3/home.dart';
 
 import 'package:like_button/like_button.dart';
 import 'package:project_3/menu.dart';
+import 'package:project_3/menu_hemat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Terfavorit extends StatefulWidget {
-  const Terfavorit({super.key});
+class tokoHemat extends StatefulWidget {
+  const tokoHemat({super.key});
 
   @override
-  State<Terfavorit> createState() => _TerfavoritState();
+  State<tokoHemat> createState() => _tokoHematState();
 }
 
 class ItemList extends StatelessWidget {
@@ -41,12 +42,12 @@ class ItemList extends StatelessWidget {
                   elevation: 5,
                   child: GestureDetector(
                     onTap: () {
-                      terfavorit[i]['statust_toko'] == '0'
+                      list[i]['statust_toko'] == '0'
                           ? showSnackBartok(context)
                           : Navigator.of(context).push(
                               new MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      menu(index: i, list: terfavorit)),
+                                      hemat(index: i, list: terdekat)),
                             );
                     },
                     child: Container(
@@ -91,7 +92,7 @@ class ItemList extends StatelessWidget {
                                       Container(
                                           width: 40,
                                           child: Text(
-                                            '${terfavorit[i]['distance']} Km',
+                                            '${terdekat[i]['distance']} Km',
                                             style: TextStyle(
                                                 color: Colors.black54),
                                             overflow: TextOverflow.ellipsis,
@@ -176,12 +177,12 @@ class ItemList extends StatelessWidget {
   }
 }
 
-Future<List> getData() async {
-  final response = await http.get(Uri.parse(terfavoritApi));
-  return jsonDecode(response.body);
-}
+// Future<List> getData() async {
+//   final response = await http.get(Uri.parse(tokoHematApi));
+//   return jsonDecode(response.body);
+// }
 
-class _TerfavoritState extends State<Terfavorit> {
+class _tokoHematState extends State<tokoHemat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,7 +195,7 @@ class _TerfavoritState extends State<Terfavorit> {
                 children: [
                   Container(
                     child: Text(
-                      'Terfavorit',
+                      'Menu hemat',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -207,7 +208,7 @@ class _TerfavoritState extends State<Terfavorit> {
               Row(
                 children: [
                   Text(
-                    'Cobain caffe terfavorit kami :)',
+                    'Cobain menu hemat dari caffe kami :)',
                     style: TextStyle(fontSize: 15),
                   )
                 ],
@@ -219,7 +220,7 @@ class _TerfavoritState extends State<Terfavorit> {
       ),
       body: RefreshIndicator(
         child: FutureBuilder<List>(
-            future: getDataterfavorit(),
+            future: getDataTerdekat(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Text("error bre");
@@ -238,7 +239,7 @@ class _TerfavoritState extends State<Terfavorit> {
           getDataterfavorit();
           getDataTerdekat();
           // getDataceklike();
-          return Navigator.pushReplacementNamed(context, '/fav');
+          return Navigator.pushReplacementNamed(context, '/dekat');
         },
       ),
     );

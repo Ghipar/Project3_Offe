@@ -59,6 +59,8 @@ class _splashState extends State<splash> {
     Placemark place = placemark[0];
     setState(() {
       address = '${place.subLocality}, ${place.subAdministrativeArea}';
+      address2 =
+          '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     });
   }
 

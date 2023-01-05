@@ -7,6 +7,7 @@ class CartProvider with ChangeNotifier {
   DBHelper db = DBHelper();
   int _counter = 0;
   int _quantity = 1;
+  String _kdtok = '';
   int get counter => _counter;
   int get quantity => _quantity;
   late Future<List<Cart>> _cart;
@@ -19,7 +20,7 @@ class CartProvider with ChangeNotifier {
 
   Future<List<Cart>> getData() async {
     _cart = db.getCartList();
-    // keran = db.getCartList() as List;
+
     return _cart;
   }
 
@@ -28,6 +29,8 @@ class CartProvider with ChangeNotifier {
     prefs.setInt('cart_items', _counter);
     prefs.setInt('item_quantity', _quantity);
     prefs.setDouble('total_price', _totalPrice);
+    prefs.setString('kdtok', _kdtok);
+
     notifyListeners();
   }
 
@@ -36,7 +39,19 @@ class CartProvider with ChangeNotifier {
     _counter = prefs.getInt('cart_items') ?? 0;
     _quantity = prefs.getInt('item_quantity') ?? 1;
     _totalPrice = prefs.getDouble('total_price') ?? 0;
+    _kdtok = prefs.getString('kdtok') ?? '';
     notifyListeners();
+  }
+
+  void setktok(String tok) {
+    _kdtok = tok;
+    _setPrefsItems();
+    notifyListeners();
+  }
+
+  String getktok() {
+    _getPrefsItems();
+    return _kdtok;
   }
 
   void addCounter() {

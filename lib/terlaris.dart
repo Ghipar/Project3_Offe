@@ -41,11 +41,13 @@ class ItemList extends StatelessWidget {
                   elevation: 5,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                menu(index: i, list: terlaris)),
-                      );
+                      terlaris[i]['statust_toko'] == '0'
+                          ? showSnackBartok(context)
+                          : Navigator.of(context).push(
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      menu(index: i, list: terlaris)),
+                            );
                     },
                     child: Container(
                       width: double.infinity,
