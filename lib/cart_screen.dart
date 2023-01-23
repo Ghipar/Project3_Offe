@@ -493,6 +493,9 @@ class _CartScreenState extends State<CartScreen> {
             ? null
             : () {
                 pengam == null
+                    ? print('pengam kosong')
+                    : getDatadettrans(finaluser, cart.getktok());
+                pengam == null
                     ? showSnackBarpengam(context)
                     : cart.getData().then((result) {
                         for (var i = 0; i < result.length; i++) {
@@ -519,6 +522,8 @@ class _CartScreenState extends State<CartScreen> {
                 pengam == null
                     ? print('pengam kosong')
                     : crut!.fremoveTotalPrice();
+
+                pgm.clear();
               },
         child: Container(
           color: cart.getCounter() == 0 ? Colors.grey : Colors.yellow.shade600,
@@ -550,33 +555,25 @@ Future<List> getDatatrans(String user, String total, String ambil, String kdtok,
     "lamet": lamut
   });
   var data = jsonDecode(response.body);
-  // if (data == 'error') {
-  //   print('uyee');
-  // } else {
-  //   print('uyee2');
-  // }
+
   return data;
 }
 
-// Future<List> getDatadettrans(String user, String total, String ambil,
-//     String kdtok, String kdmn, String pes, String sub, String lamut) async {
-//   final response = await http.post(Uri.parse(trans), body: {
-//     "Uname": user,
-//     "total": total,
-//     "ambil": ambil,
-//     "kdtok": kdtok,
-//     "kdmn": kdmn,
-//     "pes": pes,
-//     "subtl": sub,
-//     "lamet": lamut,
-//   });
-//   var data = jsonDecode(response.body);
-//   if (response.statusCode == 200) {
-//     return json.decode(response.body);
-//   } else {
-//     throw Exception('Failed to load');
-//   }
-// }
+Future<List> getDatadettrans(
+  String user,
+  String kdtok,
+) async {
+  final response = await http.post(Uri.parse(trans), body: {
+    "Uname": user,
+    "kdtok": kdtok,
+  });
+  var data = jsonDecode(response.body);
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    throw Exception('Failed to load');
+  }
+}
 
 class ReusableWidget extends StatelessWidget {
   final String title, value;
